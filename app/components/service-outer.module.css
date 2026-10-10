@@ -1,0 +1,324 @@
+:root {
+    --sp-red: #d8031d;
+    --sp-black: #111111;
+    --sp-white: #ffffff;
+    --bg-grey: #fafafa;
+    --bg-red: #ba0319;
+    --stroke-red: #ff7b8b;
+    --stroke-grey: #dedede;
+    --sub-text: #6a6a6a;
+    --border: rgba(0, 0, 0, 0.08);
+    --body-font: var(--font-aspekta), Arial, Helvetica, sans-serif;
+    --heading-font: "Newsreader", Georgia, serif;
+    --newsreader: "Newsreader", Georgia, serif;
+}
+
+.spServiceBanner {
+    position: relative;
+    background-color: var(--sp-red);
+    overflow: hidden;
+    padding-top: 100px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    /* height: 95vh; */
+}
+
+/* Vertical "Intro" tag bleeding off the left edge */
+.spTagLabel {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transform: translateY(-50%) rotate(-90deg) translateX(-50%);
+    transform-origin: left center;
+    pointer-events: none;
+}
+
+.spServiceBannerInner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* align-items: center; */
+    gap: 67px;
+    margin-left: auto;
+    padding: 0 10px 0 185px;
+
+    /* height: 100vh; */
+}
+
+/* Left content */
+
+.spContent {
+    max-width: 460px;
+    padding-top: 100px;
+}
+
+.spHeading {
+    font-family: var(--heading-font);
+    font-weight: 300;
+    font-style: Italic;
+    font-size: 72px;
+    line-height: 110%;
+    letter-spacing: -4%;
+    text-transform: capitalize;
+}
+
+.spHeadingLine {
+    display: inline;
+}
+
+.spSubtext {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 24px;
+    line-height: 140%;
+    margin: 20px 0 36px 0;
+}
+
+/* Right video thumbnail */
+
+.spVideoWrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5 / 6;
+    max-height: 550px;
+    max-width: 521px;
+    overflow: hidden;
+    background-color: #8f0f22;
+}
+
+.spVideoWrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.spThumbnail {
+    object-fit: cover;
+}
+
+.spOverlayText {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.spPlayBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.spPlayBtn:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    background-color: #ffffff;
+}
+
+.spPlayBtn svg {
+    margin-left: 3px;
+}
+
+/* Video modal — scales/fades in from roughly the thumbnail position */
+
+.spVideoModalBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    visibility: hidden;
+    pointer-events: none;
+    transition: background-color 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.spVideoModalBackdropOpen {
+    background-color: rgba(0, 0, 0, 0.85);
+    visibility: visible;
+    pointer-events: auto;
+    transition: background-color 0.35s ease, visibility 0s linear 0s;
+}
+
+.spVideoModal {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    opacity: 0;
+    transform: scale(0.85) translateY(24px);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.spVideoModalOpen {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.spVideoModalFrame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000000;
+}
+
+.spVideoModalIframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.spVideoModalClose {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 6px;
+}
+
+
+.spVideoWrap video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+
+/* Responsive */
+
+@media (max-width: 1100px) {
+    .spServiceBanner {
+        height: auto;
+    }
+
+    .spServiceBannerInner {
+        gap: 48px;
+        padding: 0px;
+    }
+
+    .spHeading {
+        font-size: 42px;
+    }
+}
+
+@media (max-width: 900px) {
+    .spTagLabel {
+        display: none;
+    }
+
+    .spContent {
+        max-width: none;
+        /* order: 1; */
+        padding-top: 50px;
+    }
+
+    .spVideoWrap {
+        /* order: 2; */
+        aspect-ratio: 9 / 10;
+        max-height: none;
+    }
+
+    .spHeading {
+        font-size: 34px;
+    }
+
+    .spSubtext {
+        font-size: 16px;
+    }
+
+    .spOverlayText {
+        font-size: 26px;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .spServiceBannerInner {
+        display: flex;
+        flex-direction: column;
+        /* height: 500px; */
+    }
+
+    .spVideoWrap {
+        width: 100%;
+        max-width: 400px;
+        margin-left: auto;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .spServiceBannerInner {
+        padding: 0 0 60px;
+    }
+
+    .spContent {
+        padding-top: 0;
+    }
+
+    .spHeading {
+        font-size: 46px;
+    }
+
+    .spCta {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .spServiceBannerInner {
+        gap: 30px;
+    }
+
+    .spVideoWrap {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 1/1.2;
+    }
+
+    .spOverlayText {
+        font-size: 20px;
+        left: 16px;
+        bottom: 16px;
+    }
+
+    .spPlayBtn {
+        width: 52px;
+        height: 52px;
+    }
+
+    .spVideoModalClose {
+        top: -38px;
+    }
+}

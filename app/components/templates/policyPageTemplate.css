@@ -1,0 +1,87 @@
+/* ── Policy page template (Privacy Policy, Terms & Conditions, …) ── */
+.policy-page {
+  background-color: #fff;
+  padding: 200px 70px 60px;
+}
+
+/* No auto-centering — .gap-left (see globals.css) pushes this in from the
+   left rail, and the reading column just sits in that left portion of
+   the page, matching the reference design (lots of open white space on
+   the right, not a centered column). */
+.policy-container {
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.policy-title {
+  font-family: var(--newsreader);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(32px, 4vw, 44px);
+  color: #111;
+  margin: 0 0 12px;
+}
+
+.policy-updated {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #999;
+  /* margin: 0 0 40px; */
+}
+
+.policy-section {
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.policy-heading {
+  font-family: var(--newsreader);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 24px;
+  color: #111;
+  /* margin: 0 0 16px; */
+  padding-left: 10px;
+}
+
+.policy-description {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.policy-paragraph {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6A6A6A;
+  /* margin: 0 0 16px; */
+}
+
+.policy-list {
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.policy-list li {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6A6A6A;
+  margin-bottom: 8px;
+}
+
+.policy-list li::marker {
+  color: #999;
+}
+
+@media screen and (max-width: 991px) {
+  .policy-page {
+    padding: 180px 24px 80px;
+  }
+}

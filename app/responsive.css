@@ -1,0 +1,1122 @@
+@media screen and (max-width: 1300px) {
+
+  .all-work__card--full .all-work__image-wrap,
+  .all-work__card--half .all-work__image-wrap {
+    max-height: 500px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .meet-the-simp .heading {
+    margin-bottom: 40px;
+  }
+
+  .meet-the-simp .heading h2 {
+    margin-bottom: 20px;
+  }
+
+  .ttb-media {
+    aspect-ratio: unset;
+  }
+
+
+  .your-brands-fold-wrap {
+    gap: 30px;
+  }
+
+  .founder-slide {
+    width: 100%;
+  }
+
+  /* TESTIMONIAL ---------------------- */
+
+  .ts-quote {
+    font-size: 24px;
+  }
+
+  .we-do-stand-in {
+    gap: 20px;
+  }
+
+  .meet-the-simp-in {
+    gap: 30px;
+    align-items: center;
+  }
+
+  .meet-simp-video {
+    aspect-ratio: 9/12;
+  }
+
+  .meet-the-simp .right {
+    gap: 12px;
+    padding-bottom: 20px;
+  }
+
+  .meet-the-simp .right p {
+    line-height: 120%;
+  }
+
+  .ttb-fold {
+    align-items: center;
+  }
+
+  .founders-section .your-brands-fold {
+    max-width: 100vw;
+    padding: 20px 20px 20px 60px;
+  }
+
+  .founder-slide-wrapper {
+    margin-right: 0;
+    max-width: 1005;
+  }
+
+  .bringing-clarity,
+  .our-approach {
+    min-height: auto;
+  }
+
+  .tools-to-build .heading.gap-left {
+    padding: 0;
+  }
+
+  .we-are-proud-company-card {
+    width: 100%;
+  }
+
+  /* ===================================== */
+  /* ---------- CULTURE PAGE ------------- */
+
+  .employeePOV-section .testimonial-slider-wrap.gap-left {
+    padding-left: 0;
+  }
+
+  .culture-videos-in .ttb-drag-cursor {
+    display: none;
+  }
+
+  .culture-videos-in .swiper-wrapper .video-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .video-card-media {
+    aspect-ratio: 16/9;
+  }
+
+
+  /* ---------------------- */
+  /* ==== OUR WORK PAGE === */
+  .our-work-banner-in {
+    max-width: calc(100% - 40px);
+  }
+
+  .we-are-proud-company-card.ow-banner-card {
+    width: 90%;
+  }
+
+  .ow-banner-cursor-cta {
+    display: none;
+  }
+
+
+
+  .all-work-in {
+    max-width: 100%;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .ticker-section {
+    padding: 100px 0;
+  }
+
+  .ticker-track {
+    margin-top: 0;
+  }
+
+  .video-animated-section {
+    height: auto;
+  }
+
+  .video-animated-sticky {
+    height: 65vh;
+  }
+
+  .video-animated-inner {
+    width: calc(100% - 40px);
+  }
+
+  .bringing-clarity-in .list-wrap {
+    margin-top: 30px;
+    justify-content: start;
+  }
+
+  .bringing-clarity {
+    padding: 60px 0px;
+  }
+
+  .meet-the-simp-in {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: end;
+  }
+
+  .meet-the-simp .right p {
+    font-size: 16px;
+  }
+
+  .counter-block:nth-child(2) {
+    text-align: start;
+  }
+
+  .counter-block:nth-child(3) {
+    text-align: start;
+  }
+
+  .ts-quote {
+    font-size: 16px;
+  }
+
+  .author-name {
+    font-size: 14px;
+  }
+
+  .author-desig {
+    font-size: 14px;
+  }
+
+  .author-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .ts-nav-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .we-are-proud-in.gap-left {
+    padding-left: 0px;
+  }
+
+  .we-are-proud-in .fold-wrap {
+    width: calc(100vw - 50px);
+    flex-direction: column;
+  }
+
+  .we-are-proud-in {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .we-are-proud .heading {
+    margin-bottom: 10px;
+  }
+
+  .we-are-proud-in>a {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 10px 20px 20px;
+  }
+
+  .fw-right-top h4 {
+    font-size: 48px;
+  }
+
+  .fw-right-top h4 span {
+    font-size: 20px;
+    padding-left: 0px;
+  }
+
+  .fw-right-top p {
+    font-size: 14px;
+  }
+
+  .we-are-proud .wap-text h5 {
+    font-size: 24px;
+  }
+
+  .we-are-proud .wap-text p {
+    font-size: 16px;
+  }
+
+  .we-are-proud .wap-text {
+    align-items: start;
+  }
+
+  .we-are-proud-in .fold-wrap .right {
+    gap: 20px;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .like-what-you-see {
+    padding: 80px 0;
+  }
+
+  .your-brands-fold {
+    padding: 20px;
+  }
+
+  .testimonial-slider-wrap.gap-left {
+    padding-left: 0px;
+  }
+
+  .tb-heading {
+    font-size: 18px;
+    max-width: 400px;
+  }
+
+  .wds-viewport.gap-left {
+    padding: 60px 20px;
+  }
+
+  .we-do-stand-in {
+    gap: 20px;
+  }
+
+  .wds-mobile-card {
+    padding-top: 20px;
+  }
+
+  .ttb-track {
+    padding-bottom: 0;
+  }
+
+  .ttb-fold {
+    display: grid;
+    padding: 0 20px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, auto);
+    gap: 0px;
+    align-items: start;
+  }
+
+  .ttb-right {
+    gap: 10px;
+  }
+
+  .ttb-right p {
+    max-width: 60ch;
+  }
+
+  .ttb-media {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .your-brands-fold h2 {
+    margin-bottom: 20px;
+  }
+
+  .your-brands-fold-wrap {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 10px;
+  }
+
+  .ybf-img {
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    width: 300px;
+    overflow: hidden;
+  }
+
+  .your-brands-fold .right {
+    gap: 10px;
+    padding-top: 10px;
+  }
+
+  .your-brands-fold .right .head {
+    font-size: 24px;
+  }
+
+  .your-brands-fold .right .text {
+    font-size: 16px;
+  }
+
+  .meet-simp-video {
+    aspect-ratio: 16/9;
+  }
+
+  /* --- APPROACH BRANDING ------------------------ */
+
+  .approach-section {
+    background-color: var(--sp-red);
+    padding: 50px 0 50px;
+  }
+
+  .approach-sec-in {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .approach-sec-in .approach-description {
+    margin-left: unset;
+  }
+
+  /* --- HOW THIS SHOWS UP ------------------------- */
+
+  .how-this-shows-up {
+    padding: 30px 0 60px;
+  }
+
+  .htsu-content {
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 20px;
+  }
+
+  .htsu-text {
+    padding-top: 0;
+  }
+
+  .htsu-video {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .htsu-foot {
+    margin-top: 60px;
+  }
+
+  .htsu-quote {
+    font-size: 24px;
+  }
+
+  /* COMPANY BANNER ---------------------- */
+
+  .company-banner {
+    padding-bottom: 50px;
+  }
+
+  /* ETHOS SECTION --------------------- */
+
+  .ethos-section {
+    padding: 100px 0;
+  }
+
+  .ethos-wrap {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .ethos-card-title {
+    font: 600 18px var(--font-aspekta);
+  }
+
+  .founderSec-left-cntnt .ybf-img {
+    width: 50%;
+    height: auto;
+    overflow: hidden;
+    aspect-ratio: 2 / 2.5;
+  }
+
+  /* ===================================== */
+  /* ---------- CULTURE PAGE ------------- */
+
+  .culture-banner {
+    padding: 0;
+  }
+
+  .offsites-retreats-section {
+    padding: 60px 0 100px;
+  }
+
+  .or-tabs {
+    gap: 28px;
+  }
+
+  .or-tab {
+    font-size: 16px;
+  }
+
+  .or-item {
+    width: 220px;
+  }
+
+  .or-place {
+    font-size: 19px;
+  }
+
+  .employee-pov-text {
+    min-height: auto;
+  }
+
+  .culture-videos-in .swiper-wrapper .video-card {
+    gap: 20px;
+  }
+
+  .culture-videos-section {
+    padding: 60px 0;
+  }
+
+  .ts-brand-logo .quoteIcon {
+    width: 25px;
+    height: auto;
+  }
+
+  .video-card-title {
+    font-size: 20px;
+  }
+
+  .catch-up-section {
+    padding: 60px 0;
+  }
+
+  .catch-up-item {
+    width: 220px;
+  }
+
+
+  .all-work__card--full .all-work__image-wrap,
+  .all-work__card--half .all-work__image-wrap {
+    max-height: 400px;
+  }
+
+  .all-work__grid {
+    row-gap: 60px;
+    grid-template-columns: 1fr;
+  }
+
+
+  .counter-wrap {
+    gap: 10px;
+  }
+
+  .counter-block p {
+    font-size: 16px;
+  }
+
+  .awards-section .heading {
+    margin-bottom: 40px;
+  }
+
+  .we-are-proud-in-company>a:last-child {
+    height: auto;
+    margin-bottom: 150px;
+  }
+
+  #ReadyToBuild {
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-b-cta {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .home-banner {
+    padding: 100px 0px 0px;
+    height: auto;
+  }
+
+  section#service-banner {
+    padding: 100px 0 0px;
+  }
+
+  .ticker-track {
+    margin-top: 0;
+  }
+
+  .video-animated-sticky .video-animated-inner {
+    aspect-ratio: 16/9;
+  }
+
+  .video-animated-sticky {
+    height: 30vh;
+  }
+
+  .bringing-clarity {
+    padding: 100px 0 30px;
+  }
+
+  .our-approach {
+    padding: 80px 0 50px;
+  }
+
+  .we-are-proud {
+    padding-top: 50px;
+  }
+
+  .counter-wrap {
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* .your-brands-fold h2 {
+    min-height: 110px;
+  } */
+
+  .like-what-you-see {
+    padding: 80px 0 100px;
+  }
+
+  .ready-to-build {
+    height: auto;
+    padding: 50px 0px;
+  }
+
+  .ready-to-build-in p {
+    font-size: 16px;
+  }
+
+  .testimonial-section {
+    padding: 60px 0;
+  }
+
+  .tb-logos {
+    margin-top: 20px;
+  }
+
+  .trusted-brands {
+    padding: 60px 0px;
+  }
+
+  .we-are-proud-in {
+    width: 100%;
+    padding-right: 0;
+  }
+
+  .we-are-proud-in>a {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 10px 0px 20px;
+  }
+
+  .we-are-proud-in .fold-wrap {
+    width: 100%;
+  }
+
+  .we-are-proud-in .fold-wrap .left .wap-img {
+    flex: 0;
+    min-height: 300px;
+    gap: 30px;
+  }
+
+  .we-are-proud-in .fold-wrap .left {
+    flex: 0;
+    min-height: fit-content;
+  }
+
+  .fw-points-wrap p {
+    font-size: 14px;
+  }
+
+  /* YOUR BRAND LOOKS SECTION ----------------------- */
+
+  .your-brands-fold {
+    padding: 0 20px 0 0;
+    width: 100%;
+  }
+
+  .ybf-img {
+    width: 100%;
+    aspect-ratio: 1/0.8;
+  }
+
+  /* WHAT WE DO SECTION ----------------------- */
+
+  .wds-top-heading {
+    margin-bottom: 20px;
+  }
+
+  .we-do-stand {
+    padding: 50px 0;
+  }
+
+  .we-do-stand-in {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .wds-left {
+    height: 100%;
+    min-height: 300px;
+  }
+
+  .meet-simp-video {
+    aspect-ratio: 16/9;
+  }
+
+  /* TESTIMONIAL SECTION ----------------------- */
+
+  .testimonial-slider-wrap {
+    padding-right: 0px;
+  }
+
+  .testimonial-slider-wrap .swiper-slide {
+    width: 100%;
+  }
+
+  /* TOOLS TO BUILD SECTION ----------------------- */
+
+  .ttb-fold {
+    padding: 0;
+    display: grid;
+    grid-template-rows: repeat(2, max-content);
+    gap: 20px;
+  }
+
+  .ttb-card-img {
+    height: 100%;
+  }
+
+  /* .ttb-card {
+    width: 260px;
+  } */
+
+  .tools-to-build .heading {
+    margin-bottom: 0;
+  }
+
+  .meet-the-simp {
+    padding: 60px 0;
+  }
+
+  .meet-the-simp .heading {
+    margin-bottom: 20px;
+  }
+
+  .meet-the-simp-in {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .meet-the-simp .right {
+    gap: 10px;
+  }
+
+  .meet-the-simp .right p {
+    font-size: 16px;
+  }
+
+  .tools-to-build .heading.gap-left {
+    padding: 0;
+  }
+
+  .ttb-media {
+    aspect-ratio: 1.2 / 1;
+    height: 100%;
+    max-width: 100%;
+  }
+
+  .ttb-right {
+    gap: 20px;
+  }
+
+  .ttb-right p {
+    line-height: 1.55;
+  }
+
+  .think-to-build {
+    padding-top: 60px;
+  }
+
+  /* FOUNDER SECTION --------------------- */
+
+  .founders-section {
+    padding-top: 40px;
+  }
+
+  .founders-section .your-brands-fold {
+    justify-content: start;
+  }
+
+  .founderSec-left-cntnt .ybf-img {
+    aspect-ratio: 2 / 2.2;
+    width: calc(100% - 15px);
+  }
+
+  .founder-slide-wrapper {
+    margin-right: 0;
+  }
+
+  .founder-slide-wrapper.gap-left {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .we-are-proud-in>a:last-child .fold-wrap {
+    width: 100%;
+  }
+
+  .approach-sec-body {
+    margin-left: 0;
+  }
+
+  .awards-section {
+    background: var(--sp-red);
+    padding: 100px 0;
+  }
+
+  #like-what-you-see-company {
+    padding-top: 0;
+    padding-bottom: 50px;
+  }
+
+  .counter-block:nth-child(2) h2,
+  .counter-block:nth-child(2) p {
+    margin: 0;
+  }
+
+  .counter-block:nth-child(3) h2,
+  .counter-block:nth-child(3) p {
+    margin-left: 0;
+  }
+
+  /* #ReadyToBuild {
+    height: auto;
+    padding: 100px 0;
+  } */
+
+  .standards-section {
+    padding-top: 80px;
+  }
+
+  .standards-card.left {
+    left: 0;
+  }
+
+  .standards-card .standard-card-num {
+    font-size: 24px;
+    margin-bottom: 26px;
+  }
+
+  .standards-card .standard-card-title {
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+
+  .spFor-good-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .approach-sec-in {
+    flex-direction: column;
+    gap: 20px;
+    display: flex;
+  }
+
+  .heading {
+    margin-bottom: 30px;
+  }
+
+  /* ==================================== */
+  /* ----------- CULTURE PAGE ----------- */
+
+  .custom-banner-cntnt {
+    gap: 40px;
+  }
+
+  .culture-banner-in p {
+    margin-top: 20px;
+  }
+
+  #principles {
+    padding-top: 140px;
+  }
+
+  #join_team {
+    padding-top: 50px;
+  }
+
+  #culture_videos {
+    padding: 100px 0;
+  }
+
+  .or-tab {
+    gap: 6px;
+  }
+
+  .or-tabs {
+    gap: 18px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  .or-tab-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+
+  .all-work-in {
+    gap: 40px;
+  }
+
+  .all-work__header {
+    gap: 40px;
+  }
+
+  .all-work__card--full .all-work__image-wrap,
+  .all-work__card--half .all-work__image-wrap {
+    max-height: 300px;
+  }
+
+  .we-are-proud-in-company>a:last-child {
+    height: 100vh;
+    margin-bottom: 0;
+  }
+
+}
+
+@media screen and (max-width: 991px) {
+  .founder-slide-wrapper {
+    margin-right: 0;
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .standards-card.left {
+    left: 0;
+  }
+
+  .we-are-proud-in .fold-wrap {
+    flex-direction: column;
+  }
+
+  .we-are-proud-in .fold-wrap .right {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .ttb-fold {
+    width: 100vw;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 60px 120px 60px 0;
+  }
+
+  .founders-section .your-brands-fold {
+    max-width: 100%;
+    padding: 20px 20px 0px;
+  }
+
+  .we-are-proud-head {
+    max-width: 70ch;
+  }
+
+  .spFor-good-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .for-good-img {
+    aspect-ratio: 16/9;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .standards-card .standard-card-num {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .standards-card .standard-card-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .standards-card .standard-card-info {
+    font-size: 16px;
+  }
+
+  .open-position .reveal-heading {
+    margin-bottom: 30px;
+  }
+
+  /* FOUNDER SECTION --------------------- */
+
+  .founders-section .your-brands-fold {
+    padding: 20px 0;
+  }
+}
+
+/* ── Sticky/horizontal sections → stacking cards on mobile ───────────────
+   Instead of horizontal scroll, each card is `position: sticky; top: <same
+   offset>` in normal document flow — as you scroll, each card sticks below
+   the header, then the next card (later in source order) scrolls up and
+   covers it, the same "stacking cards" effect bymondaystudio.com uses.
+   Pure CSS, no JS: useStickyHorizontalTrack / useStickyStepStack do
+   nothing below 768px. This file loads after custom.css, so it's needed
+   here (not there) to win over the legacy .we-are-proud-in>a
+   {position:absolute} etc. rules above, built for the old GSAP mobile
+   crossfade. */
+
+@media screen and (max-width: 767px) {
+  /* globals.css gives these overflow:hidden for the desktop horizontal-
+  scroll clip — on mobile that also clips the sticky cards below, since
+  position:sticky doesn't stick inside an overflow:hidden ancestor.
+  Desktop rule (globals.css) is untouched. */
+
+  .slider-wrapper-outer,
+  .slider-wrapper-inner {
+    overflow: visible;
+  }
+
+  .we-are-proud-in>a,
+  .we-are-proud-in .fold-wrap {
+    position: sticky;
+    top: 20px;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    padding: 0px;
+    background-color: var(--sp-red);
+    padding-top: 20px;
+  }
+
+  .we-are-proud-in .fold-wrap .right {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .ttb-fold {
+    position: sticky;
+    top: 90px;
+    width: 100%;
+    background-color: var(--sp-red);
+    padding: 0;
+    padding-top: 20px;
+  }
+
+  .your-brands-fold {
+    position: sticky;
+    top: 20px;
+    width: 100%;
+    background-color: var(--sp-red);
+    padding: 0;
+    padding-top: 20px;
+  }
+
+  .we-are-proud-in-company>a {
+    position: sticky;
+    top: 30px;
+    width: 100%;
+    background-color: var(--sp-red);
+    padding-top: 20px;
+    height: 100vh;
+  }
+
+  .we-are-proud-work .fold-wrap {
+    position: sticky;
+    top: 90px;
+    width: 100%;
+    background-color: var(--sp-red);
+  }
+
+  .we-are-proud-in,
+  .ttb-track,
+  .ybl-track,
+  .we-are-proud-in-company {
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    transform: none !important;
+  }
+
+  .ready-to-build {
+    height: auto;
+    padding: 15px 0 50px;
+  }
+
+  .testimonial-section {
+    padding: 100px 0 50px;
+  }
+
+  .like-what-you-see {
+    padding: 20px 0;
+  }
+
+  .ready-to-build-in p {
+    font-size: 16px;
+  }
+
+  .we-are-proud-company-card .we-are-proud-head .heading {
+    margin-bottom: 0;
+  }
+
+  .we-are-proud-company-card .fold-wrap {
+    flex-direction: column;
+  }
+
+  .fold-wrap.hrzntl-scroll-company .left {
+    width: 100%;
+  }
+
+  .fold-wrap.hrzntl-scroll-company .left .wap-img {
+    overflow: hidden;
+    height: auto;
+    max-height: 300px;
+  }
+
+  .we-are-proud-company .wap-text h5,
+  .we-are-proud-company-card .wap-text h5 {
+    font-size: 20px;
+  }
+
+  .we-are-proud-company .wap-text p,
+  .we-are-proud-company-card .wap-text p {
+    font-size: 16px;
+  }
+
+  .fold-wrap.hrzntl-scroll-company .right {
+    padding-top: 0px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  /* -------- APPROACH SECTION --------- */
+
+  .approach-sec-body {
+    margin-left: 0;
+  }
+
+  .approach-sec-in {
+    gap: 25px;
+  }
+
+  /* ------------- STANDARDS CARD ------------- */
+
+  .cards-stage {
+    height: 300px;
+  }
+
+  .standards-card {
+    max-width: 400px;
+  }
+
+  .standards-card.right {
+    right: auto;
+    left: 0;
+  }
+
+  .ttb-fold-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ttb-fold {
+    top: 30px;
+  }
+
+  .service-we-are-proud .we-are-proud-in .fold-wrap .right {
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+}

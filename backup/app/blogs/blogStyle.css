@@ -1,0 +1,817 @@
+/* ── /blogs page ─────────────────────────────────────────────
+   Deliberately self-contained: every rule here is scoped under a
+   `.blog-` prefix and doesn't reuse the older shared component classes
+   (`.container`, `.reveal-heading`, `.gap-left`, etc) from
+   custom.css/globals.css — only the site's global tokens (--sp-red,
+   font variables) so it still matches the brand. */
+
+
+.blog-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 70px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.blog-side-lines .left_side_line,
+.blog-side-lines .right_side_line {
+  width: 1px;
+  background: #DEDEDE;
+}
+
+/* ── Featured Blogs ── */
+.blog-hero {
+  padding: 200px 0 80px;
+  background-color: #fff;
+}
+
+.blog-hero-title,
+.blog-section-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(36px, 4.5vw, 64px);
+  color: #111;
+}
+
+.blog-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+/* ── shared blog card ── */
+.blog-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-card-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4.20 / 3.5;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #111;
+}
+
+.blog-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blog-card:hover .blog-card-image {
+  transform: scale(1.04);
+}
+
+.blog-card-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 120%;
+  margin: 24px 0 8px;
+  color: #111;
+  letter-spacing: -2%;
+}
+
+.blog-card-featured .blog-card-title {
+  font-size: 28px;
+}
+
+.blog-card-excerpt {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 18px;
+  line-height: 150%;
+  color: #6a6a6a;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── All Blogs ── */
+.blog-all {
+  padding: 40px 0 100px;
+  background-color: #fff;
+}
+
+/* .blog-section-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(30px, 3.6vw, 44px);
+  margin: 0 0 32px;
+  color: #111;
+} */
+
+.blog-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.blog-filter-label {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #111;
+}
+
+.blog-filter-select {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #111;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #111;
+  padding: 2px 20px 4px 0;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #111 50%),
+    linear-gradient(135deg, #111 50%, transparent 50%);
+  background-position: right 6px top 55%, right 0 top 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.blog-filter-select:focus-visible {
+  outline: none;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 32px;
+}
+
+.blog-empty {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  color: #666;
+  padding: 40px 0;
+}
+
+.blog-view-more {
+  margin: 56px auto 0;
+  cursor: pointer;
+}
+
+.custom-btn.custom-btn--black {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+.custom-btn.custom-btn--black:hover {
+  background: transparent;
+  color: #111;
+}
+
+/* ── Blog post (inner) page ── */
+.blog-post {
+  background-color: #fff;
+  padding-bottom: 100px;
+}
+
+.blog-post-banner-wrap {
+  max-width: calc(100% - 140px);
+  margin: 0 auto;
+  padding: 0;
+  padding-top: 100px;
+  border-radius: 0px;
+}
+
+.blog-post-banner {
+  background: #111;
+  overflow: hidden;
+  aspect-ratio: 2.4 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blog-post-banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.blog-post-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-aspekta);
+  font-size: 14px;
+  font-weight: 400;
+  color: #8a8a8a;
+  margin-top: 32px;
+}
+
+.blog-post-breadcrumb a {
+  color: #8a8a8a;
+  text-decoration: none;
+}
+
+.blog-post-breadcrumb a:hover {
+  color: #111;
+}
+
+.blog-post-breadcrumb-sep {
+  display: inline-flex;
+  align-items: center;
+  color: #c2c2c2;
+}
+
+.blog-post-breadcrumb .is-current {
+  color: #111;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 320px;
+}
+
+.blog-post-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 64px;
+  align-items: start;
+  margin-top: 40px;
+}
+
+.blog-post-main {
+  max-width: 720px;
+  min-width: 0;
+}
+
+.blog-post-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(36px, 3.6vw, 40px);
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: #111;
+  text-transform: none;
+  /* see .blog-post-heading's note on globals.css's h1-h6 capitalize rule */
+}
+
+.blog-post-meta {
+  /* font-family: var(--font-aspekta); */
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: #6a6a6a;
+  margin: 0 0 32px;
+  text-transform: uppercase;
+}
+
+.blog-post-body {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.blog-post-section+.blog-post-section {
+  margin-top: 8px;
+}
+
+.blog-post-paragraph {
+  margin: 0 0 20px;
+  color: #111;
+}
+
+.blog-post-list li a,
+.blog-post-paragraph a {
+  color: var(--sp-red);
+  text-decoration: underline;
+}
+
+.blog-post-heading {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2vw, 26px);
+  color: #111;
+  margin: 40px 0 16px;
+  /* Overrides globals.css's h1-h6 { text-transform: capitalize } — these
+     are real sentences/questions from the CMS ("What is Branding?"), not
+     short stylized taglines, so capitalizing every word mangles them
+     ("What Is Branding?", "Branding Vs. Brand"). */
+  text-transform: none;
+  /* This is the element the TOC's smooth scroll (handleTocClick in
+     page.js) actually targets via id={target_id} — without this, the
+     heading lands flush with the top of the viewport, right under the
+     fixed site header (see .spHeader { position: fixed }). */
+  scroll-margin-top: 110px;
+}
+
+.blog-post-heading:first-child {
+  margin-top: 0;
+}
+
+.blog-post-eyebrow {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sp-red);
+  margin: 0 0 12px;
+  display: none;
+}
+
+.blog-post-richtext {
+  display: contents;
+}
+
+/* h3/h4 nodes inside a blog.content-part's rich text — bold sans-serif
+   numbered subheadings (e.g. "1. Establishing Identity:"), distinct from
+   .blog-post-heading's big italic serif section titles. */
+.blog-post-subheading {
+  font-family: var(--font-aspekta);
+  font-style: normal;
+  color: #111;
+  margin: 28px 0 10px;
+  text-transform: none;
+  /* see .blog-post-heading's note on globals.css's h1-h6 capitalize rule */
+}
+
+h2.blog-post-heading {
+  text-align: center;
+  background-color: #EBEBEB;
+  border-radius: 7px;
+  padding: 10px 40px;
+  text-align: center;
+  font-style: italic;
+  line-height: 120%;
+  color: #D8031D;
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: -1px;
+}
+
+/* Level-2 headings inside a blog.content-part's own rich text (e.g. "Key
+   Takeaways") — distinct from both the numbered h3/h4 subheadings below
+   and from h2.blog-post-heading's pill-box style (that one is reserved
+   for blog.table-of-content-title's section titles, a different block
+   type entirely, even though it also happens to render as an <h2>). */
+.blog-post-subheading--h2 {
+  font-size: 30px;
+  font-weight: 700;
+  font-family: var(--font-aspekta);
+  color: #111;
+}
+
+.blog-post-subheading--h3 {
+  font-size: 26px;
+  font-weight: 700;
+  font-family: var(--font-aspekta);
+  /* font-style: italic; */
+  color: var(--sp-red);
+}
+
+.blog-post-subheading--h4 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.blog-post-learnmore-icon {
+  color: var(--sp-red);
+  flex-shrink: 0;
+}
+
+.blog-post-learnmore-icon .second-shape {
+  transform: translateX(-1.5px);
+}
+
+.blog-post-subheading a {
+  color: var(--sp-red);
+  text-decoration: underline;
+  font-size: 16px;
+}
+
+/* blog.small-content — a short emphasized callout line, larger/lighter
+   than a normal paragraph. */
+.blog-post-small-content {
+  /* font-family: var(--font-newsreader), Georgia, serif; */
+  /* font-style: italic; */
+  /* font-size: 20px;
+  line-height: 1.5; */
+  color: #111;
+  /* margin: 0 0 20px; */
+}
+
+/* blog.table-content — only carries its two column labels (no row data
+   from the API yet), shown as a simple two-up comparison heading. */
+.blog-post-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+
+.blog-post-table-content {
+  display: flex;
+  gap: 8px;
+}
+
+.blog-post-table-content span {
+  flex: 1;
+  background: var(--sp-red);
+  border-radius: 8px;
+  padding: 14px 24px;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.blog-post-table-row {
+  display: flex;
+  gap: 8px;
+}
+
+.blog-post-table-row p {
+  flex: 1;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 0;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #111;
+}
+
+.blog-post-list {
+  margin: 0 0 20px;
+  padding-left: 20px;
+}
+
+.blog-post-list li {
+  margin-bottom: 8px;
+  color: #111;
+}
+
+.blog-post-quote {
+  margin: 32px 0;
+  padding-left: 24px;
+  border-left: 3px solid var(--sp-red);
+  font-style: italic;
+  color: #111;
+}
+
+.blog-post-figure {
+  margin: 8px 0 24px;
+}
+
+.blog-post-inline-image {
+  width: 100%;
+  max-height: 400px;
+  /* aspect-ratio: 16 / 9; */
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  background: #111;
+}
+
+.blog-post-figure figcaption {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+}
+
+/* ── mid-article & final CTA blocks ── */
+.blog-post-cta {
+  background: #f7f7f7;
+  border-radius: 4px;
+  padding: 32px;
+  margin: 8px 0 40px;
+}
+
+.blog-post-cta-title {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.4vw, 26px);
+  color: #111;
+  margin: 0 0 20px;
+}
+
+/* .blog-post-cta-title span {
+  color: var(--sp-red);
+} */
+
+.blog-post-cta-subtitle {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 15px;
+  color: #6a6a6a;
+  margin: -12px 0 20px;
+}
+
+.blog-post-cta--final {
+  background: #f7f7f7;
+  text-align: left;
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+
+.custom-btn.custom-btn--red {
+  background: var(--sp-red);
+  border-color: var(--sp-red);
+  color: #fff;
+}
+
+.custom-btn.custom-btn--red:hover {
+  background: transparent;
+  color: var(--sp-red);
+}
+
+/* ── FAQ ── */
+.blog-post-faq {
+  margin: 24px 0 40px;
+}
+
+.blog-post-faq-item {
+  border-top: 1px solid #e5e5e5;
+  padding: 20px 0;
+}
+
+.blog-post-faq-item:last-child {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.blog-post-faq-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 16px;
+  color: #111;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+
+.blog-post-faq-icon {
+  flex-shrink: 0;
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.blog-post-faq-icon::before,
+.blog-post-faq-icon::after {
+  content: "";
+  position: absolute;
+  background: #111;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.blog-post-faq-icon::before {
+  width: 12px;
+  height: 1.5px;
+}
+
+.blog-post-faq-icon::after {
+  width: 1.5px;
+  height: 12px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.blog-post-faq-item.is-open .blog-post-faq-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+
+/* The actual smooth-open/close animation: grid-template-rows 0fr -> 1fr
+   is a CSS-only way to animate "auto" height without measuring the
+   content's pixel height in JS. overflow:hidden on both the row and its
+   child keep the collapsed panel's content clipped, and the child's own
+   min-height:0 is required for the row track to actually reach 0 (a
+   grid item won't shrink below its content's intrinsic min-height
+   otherwise). */
+.blog-post-faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+  overflow: hidden;
+}
+
+.blog-post-faq-item.is-open .blog-post-faq-panel {
+  grid-template-rows: 1fr;
+}
+
+.blog-post-faq-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.blog-post-faq-item p {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #6a6a6a;
+  margin: 16px 0 0;
+}
+
+/* ── sidebar: table of contents + share ── */
+.blog-post-sidebar {
+  position: sticky;
+  top: 95px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.blog-post-toc {
+  background: #FAFAFA;
+  /* border-radius: 4px; */
+  padding: 24px;
+  border: 1px solid #DEDEDE;
+}
+
+.blog-post-toc-title {
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #111111;
+  margin: 0 0 16px;
+}
+
+.blog-post-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.blog-post-toc a {
+  font-family: var(--font-aspekta);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #111111;
+  text-decoration: none;
+}
+
+.blog-post-toc a:hover {
+  color: var(--sp-red);
+}
+
+.blog-post-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: #111;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.blog-post-share svg {
+  color: var(--sp-red);
+  flex-shrink: 0;
+}
+
+/* ── Other Blogs ── */
+.blog-post-related {
+  padding: 80px 0 40px;
+  background-color: #fff;
+}
+
+.blog-post-not-found {
+  padding: 160px 24px;
+  text-align: center;
+  font-family: var(--font-aspekta), Arial, sans-serif;
+  color: #444;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 1024px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .blog-post-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .blog-post-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-post-sidebar {
+    position: static;
+    order: -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .blog-post-toc {
+    width: 100%;
+  }
+
+  .blog-container {
+    padding: 0 40px;
+  }
+
+  .blog-post-banner-wrap {
+    max-width: 100%;
+    padding-top: 100px;
+  }
+
+  .blog-post-main {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .blog-container {
+    padding: 0 20px;
+  }
+
+  .blog-hero {
+    padding: 100px 0 56px;
+  }
+
+  .blog-featured-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .blog-post-banner-wrap {
+    padding-top: 100px;
+  }
+
+  .blog-post-banner {
+    aspect-ratio: 4 / 3;
+  }
+
+  .blog-post-cta {
+    padding: 24px;
+  }
+
+  .blog-post-subheading--h2,
+  .blog-post-subheading--h3,
+  .blog-post-subheading--h4 {
+    font-size: 20px;
+  }
+
+  h2.blog-post-heading {
+    font-size: 28px;
+  }
+
+  .blog-post-body {
+    gap: 10px;
+  }
+}

@@ -1,0 +1,426 @@
+.spFooter {
+    position: relative;
+    overflow: hidden;
+    background-color: #BA0319;
+}
+
+.spFooterWatermark {
+    pointer-events: none;
+    /* width: 62%; */
+    /* max-width: 62%; */
+    position: absolute;
+    /* top: 50%; */
+    /* left: 50%;
+    transform: translateX(-50%); */
+    opacity: 0.3;
+    inset: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spFooterWatermark img {
+    width: max-content;
+}
+
+.spFooterInner {
+    position: relative;
+    z-index: 1;
+    padding: 96px 48px 25px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+/* Hero */
+
+.spFooterHero {
+    /* max-width: 760px; */
+    margin-bottom: 120px;
+    /* margin-left: 180px; */
+}
+
+@media (max-width: 1200px) {
+    .spFooterHero {
+        margin-left: 80px;
+    }
+}
+
+.spFooterHeading {
+    font-style: italic;
+    color: #ffffff;
+    font-size: 64px;
+    margin: 0;
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -2%;
+    max-width: 20ch;
+}
+
+.spFooterSubtext {
+    color: #fff;
+    margin: 0 0 25px;
+    font-size: 20px;
+    line-height: 130%;
+    font-weight: 400;
+    max-width: 40ch;
+}
+
+/* 
+.spBookCallBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 20px 28px;
+} */
+
+.spBookCallIcon {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Newsletter pre-footer variant (blog page) */
+
+.spNewsletterForm {
+    margin-top: 8px;
+}
+
+.spNewsletterLabel {
+    display: block;
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.spNewsletterField {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    max-width: 540px;
+    /* background: #fff; */
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.spNewsletterInput {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    padding: 13px 6px;
+    font-size: 14px;
+    background-color: transparent;
+    border-bottom: 1px solid #DEDEDE;
+    color: #fff;
+}
+
+.spNewsletterInput::placeholder {
+    color: #DEDEDE;
+}
+
+.spNewsletterSubmit {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border: none;
+    border: 1px solid #eee;
+    background: #fff;
+    color: #1a1a1a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0 24px;
+    align-self: stretch;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .spNewsletterField {
+        flex-direction: column;
+        border-radius: 4px;
+    }
+
+    .spNewsletterSubmit {
+        border-left: none;
+        border-top: 1px solid #eee;
+        padding: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Columns */
+
+.spFooterColumns {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    gap: 32px;
+    margin-bottom: 0px;
+    margin-top: 140px;
+}
+
+.spFooterColumn {
+    min-width: 0;
+}
+
+.spFooterColumn:last-child {
+    justify-self: end;
+    width: 100%;
+    max-width: 420px;
+}
+
+.spFooterColumnTitle {
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.spFooterLinkList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.spFooterLink {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    letter-spacing: 3.5%;
+    font-weight: 400;
+}
+
+/* .spFooterLink:hover {
+    text-decoration: underline;
+} */
+
+.spFooterLink {
+    display: inline-block;
+    overflow: hidden;
+    text-decoration: none;
+    color: #fff;
+}
+
+.spFooterTextWrap {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    height: 1.15em;
+    /* border: 1px solid white; */
+}
+
+.spFooterText1,
+.spFooterText2 {
+    display: block;
+    transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+    line-height: 1.15em;
+}
+
+.spFooterText2 {
+    position: absolute;
+    left: 0;
+    top: 100%;
+}
+
+.spFooterLink:hover .spFooterText1 {
+    transform: translateY(-100%);
+}
+
+.spFooterLink:hover .spFooterText2 {
+    transform: translateY(-100%);
+}
+
+.spFooterRecognition {
+    display: block;
+    align-self: flex-end;
+    margin: 0px 0 72px auto;
+    max-width: 320px;
+    position: static;
+    width: 320px;
+}
+
+.spFooterRecognition img {
+    display: block;
+    height: auto;
+    width: 100%;
+}
+
+/* Bottom bar */
+
+.spFooterBottom {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    display: flex;
+}
+
+.spFooterCopyright,
+.spFooterCredit {
+    color: #fff;
+    font-size: 14px;
+    display: inline-flex;
+    font-weight: 400;
+    line-height: 100%;
+    gap: 5px;
+}
+
+.spCopyrightIcon {
+    font-size: 13px;
+}
+
+.spHeart {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+/* Responsive */
+
+@media (max-width: 1024px) {
+    .spFooterHeading {
+        font-size: 48px;
+    }
+
+    .spFooterHero {
+        margin-left: 0;
+        margin-bottom: 88px;
+    }
+
+    .spFooterColumns {
+        grid-template-columns: 1.35fr 1.35fr 1fr;
+        gap: 40px;
+    }
+
+    .spFooterColumn:last-child {
+        margin-left: 0;
+    }
+
+    /* .spFooterWatermark {
+        width: 80%;
+        max-width: 80%;
+    } */
+}
+
+@media (max-width: 991px) {
+    .spFooterInner {
+        padding: 96px 0 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .spFooterInner {
+        padding: 56px 0 40px;
+    }
+
+    .spFooterHero {
+        margin-bottom: 64px;
+    }
+
+    .spFooterHeading {
+        font-size: 34px;
+        letter-spacing: -0.5px;
+    }
+
+    .spFooterHeading br {
+        display: none;
+    }
+
+    .spFooterSubtext {
+        font-size: 15px;
+    }
+
+    .spFooterSubtext br {
+        display: none;
+    }
+
+    /* .spBookCallBtn {
+        padding: 16px 22px;
+    } */
+
+    .spFooterColumns {
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+        margin-bottom: 64px;
+        margin-top: 70px;
+    }
+
+    .spFooterRecognition {
+        margin: 48px 0 56px;
+        width: 100%;
+    }
+
+    .spFooterRecognitionRow {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .spFooterColumnTitle {
+        margin-bottom: 16px;
+    }
+
+    .spFooterLinkList {
+        gap: 18px;
+    }
+
+    .spFooterLinkList li {
+        height: 1.15em;
+    }
+
+    .spFooterBottom {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 30px;
+        padding-top: 24px;
+    }
+
+    /* .spFooterWatermark {
+        width: 110%;
+        max-width: 110%;
+        height: 110vh;
+    } */
+}
+
+@media (max-width: 480px) {
+    .spFooterInner {
+        padding: 48px 0 28px;
+    }
+
+    .spFooterHeading {
+        font-size: 30px;
+    }
+
+    .spFooterSubtext {
+        font-size: 14px;
+    }
+
+    .spFooterHero {
+        margin-bottom: 56px;
+    }
+
+    .spFooterColumns {
+        gap: 40px;
+        margin-bottom: 56px;
+    }
+
+    /* .spBookCallBtn {
+        padding: 15px 20px;
+        font-size: 12px;
+    } */
+}

@@ -1,0 +1,24 @@
+{
+  "name": "sp-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "axios": "^1.18.0",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.23",
+    "next": "^16.3.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "swiper": "^12.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9"
+  }
+}

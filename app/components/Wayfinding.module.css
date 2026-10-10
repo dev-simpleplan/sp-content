@@ -1,0 +1,132 @@
+/* Wayfinding.module.css
+   Fixed left-side scroll progress rail. No :root usage. */
+
+.spWayfinding {
+    position: fixed;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    /* Give the hover target some horizontal breathing room so users don't
+     have to hit the 1px line exactly. */
+    padding: 12px 24px 12px 4px;
+    height: 100%;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Opacity/pointer-events fade itself comes from the global .side-rail
+   utility (see globals.css) driven by SideRailVisibilityWatcher. This just
+   layers this component's own extra slide flourish on top of that same
+   trigger — active whenever body carries .hide-side-rails. */
+:global(body.hide-side-rails) .spWayfinding {
+    transform: translateY(-50%) translateX(-14px);
+}
+
+.spWayfindingLine {
+    background-color: #FF7B8B;
+    width: 1px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0px;
+}
+
+.spWayfindingList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: relative;
+    right: 4px;
+    transform-origin: center;
+    transition: transform 0.3s ease;
+}
+
+.spWayfindingItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* Not a <button>/<a> on purpose — this rail is not interactive/clickable,
+     see comment in Wayfinding.jsx for why. */
+    cursor: default;
+}
+
+.spWayfindingDot {
+    flex-shrink: 0;
+    background: #FF7B8B;
+    width: 10px;
+    height: 1px;
+    transition: background-color .25s, transform .25s;
+}
+
+.spWayfindingDotActive {
+    background-color: #ffffff;
+    transform: scale(1.6);
+}
+
+.spWayfindingLabel {
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+}
+
+.spWayfindingLabelVisible {
+    opacity: 0.65;
+    transform: translateX(0);
+}
+
+.spWayfindingLabelActive {
+    opacity: 1;
+}
+
+/* The product contact page starts on a white form section, so its first
+   section label needs a dark contrast while the remaining wayfinding labels
+   keep their existing theme. */
+.spWayfindingProductContact .spWayfindingItem:first-child .spWayfindingLabel {
+    color: #111111;
+}
+
+.spWayfindingProductContact .spWayfindingItem:first-child .spWayfindingDotActive {
+    background-color: #111111;
+}
+
+/* Light theme — for use on white/light-background pages (e.g. the policy
+   page template). The default colors above (pink line, white label) are
+   tuned for the red hero sections this component was originally built
+   for; on a white page they either disappear (white label) or read as a
+   jarring, overly bright accent (pink line), which is not what this
+   component actually looks like elsewhere on light backgrounds. */
+.spWayfindingLight .spWayfindingLine {
+    background-color: #ddd;
+}
+
+.spWayfindingLight .spWayfindingDot {
+    background: #ccc;
+}
+
+.spWayfindingLight .spWayfindingDotActive {
+    background-color: #111;
+}
+
+.spWayfindingLight .spWayfindingLabel {
+    color: #444;
+}
+
+/* Hide on smaller screens — a side rail like this competes with content
+   on mobile and there's no room for it anyway. */
+@media (max-width: 991px) {
+    .spWayfinding {
+        display: none;
+    }
+}

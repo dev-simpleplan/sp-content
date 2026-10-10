@@ -1,0 +1,44 @@
+/* ── Static message pages (Thank You, 404, …) ──────────────
+   Shared structure/classes for any one-off static message page — only
+   the content (heading/quote/subtext/CTA) differs per page, via
+   StaticMessagePage.js. */
+.static-message-section {
+  background-color: var(--sp-red);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 160px 0 100px;
+}
+
+.static-message-in {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.static-message-heading {
+  margin-bottom: 40px;
+  font-size: clamp(90px, 12vw, 160px);
+}
+
+.static-message-quote {
+  /* font-family: var(--newsreader);
+  font-style: italic; */
+  font-size: clamp(20px, 2.5vw, 28px);
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.static-message-subtext {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  line-height: 150%;
+  margin-bottom: 48px;
+}
+
+.static-message-cta {
+  margin: 0 auto;
+}

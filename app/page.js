@@ -2,15 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import ProductHomeBanner from "./components/ProductHomeBanner";
+import HomeBanner from "./components/HomeBanner";
+import VideoAnimated from "./components/VideoAnimated";
 import ProductStats from "./components/ProductStats";
 import HomeBestsellingProducts from "./components/HomeBestsellingProducts";
+import BringingClarity from "./components/BringingClarity";
+import PaidCourse from "./components/PaidCourse";
 import TestimonialSection from "./components/TestimonialSection";
-import PopularCategories from "./components/PopularCategories";
 import OurApproach from "./components/OurApproach";
-import TickerSection from "./components/TickerSection";
-import BrandStrategyProduct from "./components/BrandStrategyProduct";
-import SellingBundles from "./components/SellingBundles";
 import Initiatives from "./components/company/Initiatives";
 import RightSideLine from "./components/RightSideLine";
 import Wayfinding from "./components/Wayfinding";
@@ -19,50 +18,41 @@ import LoadingScreen from "./components/LoadingScreen";
 
 export default function Home() {
   const [banner, setBanner] = useState(null);
+  const [video, setVideo] = useState(null);
   const [stats, setStats] = useState([]);
-  const [bestsellingProducts, setBestsellingProducts] = useState(null);
+  const [learningPath, setLearningPath] = useState(null);
+  const [growFaster, setGrowFaster] = useState(null);
+  const [mostPopular, setMostPopular] = useState(null);
+  const [paidCourse, setPaidCourse] = useState(null);
   const [testimonials, setTestimonials] = useState(null);
-  const [popularCategories, setPopularCategories] = useState(null);
-  const [expertTools, setExpertTools] = useState(null);
-  const [trustedBrands, setTrustedBrands] = useState(null);
-  const [brandStrategyProduct, setBrandStrategyProduct] = useState(null);
-  const [sellingBundles, setSellingBundles] = useState(null);
-  const [aboutSection, setAboutSection] = useState(null);
-  const [freeGuide, setFreeGuide] = useState(null);
+  const [peopleTrustUs, setPeopleTrustUs] = useState(null);
+  const [digitalProducts, setDigitalProducts] = useState(null);
+  const [learnAbout, setLearnAbout] = useState(null);
+  const [preFooter, setPreFooter] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const freeGuidePreFooter = useMemo(
-    () =>
-      freeGuide
-        ? { ...freeGuide, variant: "newsletter", submit_text: "Get Free Guide" }
-        : null,
-    [freeGuide]
-  );
-  useSetPreFooter(freeGuidePreFooter);
+  useSetPreFooter(preFooter);
 
   useEffect(() => {
     axios
       .get("/api/products-homepage")
       .then(({ data }) => {
-        setBanner(data?.data?.product_home_banner || null);
+        setBanner(data?.data?.content_home_banner || null);
+        setVideo(data?.data?.video_section || null);
         setStats(data?.data?.stats || []);
-        setBestsellingProducts(data?.data?.bestselling_products || null);
-        const testimonialsSection =
-          data?.data?.testimonials_section?.testimonials_section ||
-          data?.data?.testimonials_section ||
-          null;
-        setTestimonials(testimonialsSection);
-        setPopularCategories(data?.data?.popular_categories || null);
-        setExpertTools(data?.data?.expert_tools || null);
-        setTrustedBrands(data?.data?.trusted_brands || null);
-        setBrandStrategyProduct(data?.data?.brand_strategy_product || null);
-        setSellingBundles(data?.data?.selling_bundles || null);
-        setAboutSection(data?.data?.about_section || null);
-        setFreeGuide(data?.data?.free_guide || null);
+        setLearningPath(data?.data?.learning_path || null);
+        setGrowFaster(data?.data?.grow_faster || null);
+        setMostPopular(data?.data?.most_popular || null);
+        setPaidCourse(data?.data?.paid_course || null);
+        setTestimonials(data?.data?.testimonials_section || null);
+        setPeopleTrustUs(data?.data?.people_trust_us || null);
+        setDigitalProducts(data?.data?.our_digital_products || null);
+        setLearnAbout(data?.data?.learn_about || null);
+        setPreFooter(data?.data?.pre_footer || null);
       })
       .catch((requestError) => {
-        console.error("Product home banner fetch error:", requestError);
+        console.error("Content home fetch error:", requestError);
         setError(requestError);
       })
       .finally(() => setLoading(false));
@@ -80,44 +70,44 @@ export default function Home() {
 
   const wayfindingSections = useMemo(
     () => [
-      { id: "product-home-hero", label: banner?.tagline || "Intro" },
-      ...(stats.length ? [{ id: "product-home-stats", label: "Stats" }] : []),
-      ...(bestsellingProducts
-        ? [{ id: "product-home-bestsellers", label: bestsellingProducts.tagline || "Bestsellers" }]
+      { id: "content-home-hero", label: banner?.tagline || "Intro" },
+      ...(stats.length ? [{ id: "content-home-stats", label: "Stats" }] : []),
+      ...(learningPath
+        ? [{ id: "content-home-learning-path", label: learningPath.tagline || "Learning Path" }]
+        : []),
+      ...(growFaster
+        ? [{ id: "content-home-grow-faster", label: growFaster.tag || "Who is it for" }]
+        : []),
+      ...(mostPopular
+        ? [{ id: "content-home-most-popular", label: mostPopular.tagline || "Popular" }]
         : []),
       ...(testimonials
-        ? [{ id: "product-home-testimonials", label: testimonials.Tagline || testimonials.tagline || "Testimonials" }]
+        ? [{ id: "content-home-testimonials", label: testimonials.Tagline || testimonials.tagline || "Testimonials" }]
         : []),
-      ...(popularCategories
-        ? [{ id: "product-home-categories", label: popularCategories.tagline || "Categories" }]
+      ...(paidCourse
+        ? [{ id: "content-home-paid-course", label: paidCourse.tagline || "Paid Course" }]
         : []),
-      ...(expertTools
-        ? [{ id: "product-home-expert-tools", label: expertTools.tag || "Benefits" }]
+      ...(peopleTrustUs
+        ? [{ id: "content-home-people-trust-us", label: peopleTrustUs.tag || "Benefits" }]
         : []),
-      ...(trustedBrands
-        ? [{ id: "product-home-trusted-brands", label: trustedBrands.tagline || "Trusted Brands" }]
+      ...(digitalProducts
+        ? [{ id: "content-home-digital-products", label: digitalProducts.tagline || "Tools" }]
         : []),
-      ...(brandStrategyProduct
-        ? [{ id: "product-home-featured", label: brandStrategyProduct.tagline || "Featured" }]
-        : []),
-      ...(sellingBundles
-        ? [{ id: "product-home-bundles", label: sellingBundles.tagline || "Bundles" }]
-        : []),
-      ...(aboutSection
-        ? [{ id: "product-home-about", label: aboutSection.tagline || "About Us" }]
+      ...(learnAbout
+        ? [{ id: "content-home-learn-about", label: learnAbout.tagline || "About" }]
         : []),
     ],
     [
       banner,
       stats,
-      bestsellingProducts,
+      learningPath,
+      growFaster,
+      mostPopular,
+      paidCourse,
       testimonials,
-      popularCategories,
-      expertTools,
-      trustedBrands,
-      brandStrategyProduct,
-      sellingBundles,
-      aboutSection,
+      peopleTrustUs,
+      digitalProducts,
+      learnAbout,
     ]
   );
 
@@ -126,28 +116,29 @@ export default function Home() {
   }
 
   if (error || !banner) {
-    return <div className="product-home-error">Unable to load the product home banner.</div>;
+    return <div className="content-home-error">Unable to load the home page content.</div>;
   }
 
   return (
     <>
       <Wayfinding sections={wayfindingSections} />
       <RightSideLine id="rightLine" />
-      <ProductHomeBanner id="product-home-hero" data={banner} />
-      <ProductStats id="product-home-stats" stats={stats} />
-      <HomeBestsellingProducts id="product-home-bestsellers" data={bestsellingProducts} />
+      <HomeBanner id="content-home-hero" data={banner} />
+      <VideoAnimated id="content-home-video" data={video} />
+      <ProductStats id="content-home-stats" stats={stats} />
+      <HomeBestsellingProducts id="content-home-learning-path" data={learningPath} />
+      <BringingClarity id="content-home-grow-faster" data={growFaster} />
+      <HomeBestsellingProducts id="content-home-most-popular" data={mostPopular} />
       <TestimonialSection
-        id="product-home-testimonials"
+        id="content-home-testimonials"
         data={testimonials}
         productVariant
         testimonialTicker
       />
-      <PopularCategories id="product-home-categories" data={popularCategories} />
-      <OurApproach id="product-home-expert-tools" data={expertTools} />
-      <TickerSection id="product-home-trusted-brands" data={trustedBrands} />
-      <BrandStrategyProduct id="product-home-featured" data={brandStrategyProduct} />
-      <SellingBundles id="product-home-bundles" data={sellingBundles} />
-      <Initiatives id="product-home-about" data={aboutSection} />
+      <PaidCourse id="content-home-paid-course" data={paidCourse} />
+      <OurApproach id="content-home-people-trust-us" data={peopleTrustUs} />
+      <Initiatives id="content-home-digital-products" data={digitalProducts} />
+      <Initiatives id="content-home-learn-about" data={learnAbout} alignContentStart />
     </>
   );
 }

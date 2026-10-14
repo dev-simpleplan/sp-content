@@ -60,6 +60,7 @@
 }
 
 @keyframes spOfferDotPulse {
+
     0%,
     100% {
         opacity: 0.35;
@@ -95,7 +96,7 @@
 }
 
 .spProductHeader .spMegaMenuInner {
-    max-width: 700px;
+    max-width: 800px;
     margin-right: auto;
     padding: 44px 110px 58px;
 }
@@ -121,10 +122,6 @@
 .spProductHeader .spMegaMenuLink {
     font-size: 15px;
     letter-spacing: 0.02em;
-}
-
-.spProductHeader .spMegaBg {
-    top: 145px;
 }
 
 .spProductShopAll {
@@ -171,6 +168,12 @@
     padding: 18px 48px;
     display: flex;
     position: relative;
+}
+
+.spHeaderCta,
+.spMobileCta {
+    --sel-bg: #111111;
+    --sel-fg: #ffffff;
 }
 
 .spHeaderCta {
@@ -1273,6 +1276,8 @@
 
 .spHeaderWhite {
     background-color: #ffffff;
+    --sel-bg: #111111;
+    --sel-fg: #ffffff;
 }
 
 /* Keep the product contact page's offer bar on the product red theme while

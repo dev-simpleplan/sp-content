@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import LeftSideLine from "../LeftSideLine";
 import RightSideLine from "../RightSideLine";
 import Wayfinding from "../Wayfinding";
 import { useSetPreFooter } from "../../context/PreFooterContext";
@@ -57,7 +56,6 @@ export default function PolicyPageTemplate({ title, lastUpdated, sections = [], 
 
   return (
     <>
-      <LeftSideLine light />
       <RightSideLine light />
       <Wayfinding sections={wayfindingSections} theme="light" />
 

@@ -16,13 +16,21 @@ const ARROW_RIGHT = (
 );
 
 export default function HomeBestsellingProducts({ id, data }) {
-  const categories = useMemo(() => data?.products_type || [], [data]);
+  // Learning Path data has tabs (data.path); Most Popular data is a flat
+  // list (data.popular_videos) and renders without tabs.
+  const hasTabs = Array.isArray(data?.path);
+  const categories = useMemo(() => data?.path || [], [data]);
   const [activeCategory, setActiveCategory] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
   const tabsRef = useRef(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
-  const products = categories[activeCategory]?.products || [];
+  const products = hasTabs
+    ? categories[activeCategory]?.path_video || []
+    : data?.popular_videos || data?.resources || [];
+  // resources are products: their CTA is a full button, videos get a text link
+  const isResources = !hasTabs && !data?.popular_videos && Boolean(data?.resources);
+  const subtitle = data?.description?.[0]?.children?.[0]?.text;
   const maxSlideIndex = Math.max(products.length - visibleCount, 0);
   const currentSlideIndex = Math.min(slideIndex, maxSlideIndex);
 
@@ -61,7 +69,7 @@ export default function HomeBestsellingProducts({ id, data }) {
     return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
 
-  if (!data || !categories.length) return null;
+  if (!data || !products.length) return null;
 
   const selectCategory = (index) => {
     setActiveCategory(index);
@@ -72,7 +80,9 @@ export default function HomeBestsellingProducts({ id, data }) {
     <section className="home-bestselling-products" id={id}>
       <div className="container">
         <div className="home-bestselling-products__inner gap-left">
-          <h2>{data.title || "Our Bestselling Products"}</h2>
+          <h2 className="reveal-heading">{data.title}</h2>
+          {subtitle && <p className="home-bestselling-products__sub">{subtitle}</p>}
+          {hasTabs && (
           <div
             className="home-bestselling-products__tabs"
             role="tablist"
@@ -84,10 +94,10 @@ export default function HomeBestsellingProducts({ id, data }) {
                 role="tab"
                 aria-selected={activeCategory === index}
                 className={activeCategory === index ? "is-active" : ""}
-                key={category.id || category.name}
+                key={category.id || category.path_title}
                 onClick={() => selectCategory(index)}
               >
-                {category.name}
+                {category.path_title}
               </button>
             ))}
             <span
@@ -99,6 +109,7 @@ export default function HomeBestsellingProducts({ id, data }) {
               }}
             />
           </div>
+          )}
 
           <div className="home-bestselling-products__viewport">
             <div
@@ -108,38 +119,54 @@ export default function HomeBestsellingProducts({ id, data }) {
                 "--home-visible-count": visibleCount,
               }}
             >
-              {products.map((product) => (
-                <article className="home-bestselling-card" key={product.id}>
-                  <div className="home-bestselling-card__image">
-                    {product.image && (
-                      <img
-                        src={getImageUrl(product.image)}
-                        alt={product.image.alternativeText || product.title || "Product"}
-                        draggable={false}
-                      />
-                    )}
-                  </div>
-                  <div className="home-bestselling-card__content">
-                    <div className="home-bestselling-card__rating">
-                      <span aria-label="5 out of 5 stars">★</span>
-                      <small>{product.review_count || 4.9}</small>
+              {products.map((item) => {
+                // videos: image + video_title; resources: product_image + title (+ price)
+                const image = item.image || item.product_image;
+                const title = item.video_title || item.title;
+
+                return (
+                  <article className="home-bestselling-card" key={item.id}>
+                    <div className="home-bestselling-card__image">
+                      {image && (
+                        <img
+                          src={getImageUrl(image)}
+                          alt={image.alternativeText || title || "Item"}
+                          draggable={false}
+                        />
+                      )}
                     </div>
-                    <h3>{product.title}</h3>
-                    <p>{product.price}</p>
-                    <a href={product.cta_link && product.cta_link !== "#" ? product.cta_link : "#"}>
-                      <span>{product.cta_text || "View Product"}</span>
-                      <span className="home-bestselling-card__arrow arrow-wrap" aria-hidden="true">
-                        <svg className="arrow arrow-1" viewBox="0 0 12 12" fill="none">
-                          <path d="M0.878 11.667 0 10.789 9.539 1.25H3.75V0h7.917v7.917h-1.25V2.128L.878 11.667Z" fill="currentColor" />
-                        </svg>
-                        <svg className="arrow arrow-2" viewBox="0 0 12 12" fill="none">
-                          <path d="M0.878 11.667 0 10.789 9.539 1.25H3.75V0h7.917v7.917h-1.25V2.128L.878 11.667Z" fill="currentColor" />
-                        </svg>
-                      </span>
-                    </a>
-                  </div>
-                </article>
-              ))}
+                    <div className="home-bestselling-card__content">
+                      {isResources && item.rating && (
+                        <div className="home-bestselling-card__rating">
+                          <span aria-label={`${item.rating} out of 5 stars`}>★</span>
+                          <small>{item.rating}</small>
+                        </div>
+                      )}
+                      <h3>{title}</h3>
+                      {item.price && (
+                        <p className="home-bestselling-card__price">{item.price}</p>
+                      )}
+                      {isResources ? (
+                        <a href={item.cta_link || "#"} className="custom-btn">
+                          <span>{item.cta_text || "View Product"}</span>
+                          <span className="arrow-wrap" aria-hidden="true">
+                            <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" fill="currentColor" />
+                            </svg>
+                            <svg className="arrow arrow-2" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" fill="currentColor" />
+                            </svg>
+                          </span>
+                        </a>
+                      ) : (
+                        <a href={item.cta_link || "#"}>
+                          <span>{item.cta_text || "Watch Now"}</span>
+                        </a>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
 
@@ -147,7 +174,7 @@ export default function HomeBestsellingProducts({ id, data }) {
             <div className="home-bestselling-products__controls">
               <button
                 type="button"
-                aria-label="Previous products"
+                aria-label="Previous"
                 disabled={currentSlideIndex === 0}
                 onClick={() => setSlideIndex((current) => Math.max(current - 1, 0))}
               >
@@ -155,7 +182,7 @@ export default function HomeBestsellingProducts({ id, data }) {
               </button>
               <button
                 type="button"
-                aria-label="Next products"
+                aria-label="Next"
                 disabled={currentSlideIndex === maxSlideIndex}
                 onClick={() =>
                   setSlideIndex((current) => Math.min(current + 1, maxSlideIndex))

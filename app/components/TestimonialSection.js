@@ -30,6 +30,24 @@ export default function TestimonialSection({
 
   if (!data) return null;
 
+  const renderTickerAuthor = (t) => (
+    <div className="testimonial-ticker__author">
+      {t.user_image && (
+        <div className="author-img">
+          <img
+            src={getImageUrl(t.user_image)}
+            alt={t.user_name || "Author"}
+            className="img"
+          />
+        </div>
+      )}
+      <div className="author-details">
+        <p className="author-name">{t.user_name || t.name}</p>
+        <p className="author-desig">{t.user_designation}</p>
+      </div>
+    </div>
+  );
+
   return (
     <section className={`testimonial-section ${productVariant ? "testimonial-section--product" : ""}`} id={id}>
       <div className="container">
@@ -40,16 +58,10 @@ export default function TestimonialSection({
           <div className="testimonial-ticker__track">
             {[...testimonials, ...testimonials].map((t, index) => (
               <article className="testimonial-ticker__item" key={`${t.id}-${index}`}>
-                <div className="testimonial-ticker__stars" aria-label="5 out of 5 stars">
-                  ★★★★★
-                </div>
                 <p className="testimonial-ticker__quote">
                   {t.testimonial_text?.[0]?.children?.[0]?.text || t.text || t.testimonial}
                 </p>
-                <div className="testimonial-ticker__author">
-                  <p className="author-name">{t.user_name || t.name}</p>
-                  <p className="author-desig">{t.user_designation}</p>
-                </div>
+                {renderTickerAuthor(t)}
               </article>
             ))}
           </div>
@@ -66,16 +78,10 @@ export default function TestimonialSection({
             {testimonials.map((t) => (
               <SwiperSlide key={t.id}>
                 <article className="testimonial-ticker__item">
-                  <div className="testimonial-ticker__stars" aria-label="5 out of 5 stars">
-                    ★★★★★
-                  </div>
                   <p className="testimonial-ticker__quote">
                     {t.testimonial_text?.[0]?.children?.[0]?.text || t.text || t.testimonial}
                   </p>
-                  <div className="testimonial-ticker__author">
-                    <p className="author-name">{t.user_name || t.name}</p>
-                    <p className="author-desig">{t.user_designation}</p>
-                  </div>
+                  {renderTickerAuthor(t)}
                 </article>
               </SwiperSlide>
             ))}

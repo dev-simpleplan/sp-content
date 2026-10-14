@@ -49,7 +49,7 @@ export default function PrivacyPolicyPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/api/product-privacy-policy")
+    fetch("/api/content-privacy-policy")
       .then(async (response) => {
         const payload = await response.json();
         if (!response.ok || payload?.error || !payload?.data) {
@@ -59,14 +59,14 @@ export default function PrivacyPolicyPage() {
       })
       .then(setContent)
       .catch((requestError) => {
-        console.error("Product privacy policy fetch error:", requestError);
+        console.error("Privacy policy fetch error:", requestError);
         setError(requestError);
       });
   }, []);
 
   if (!content && !error) return <LoadingScreen />;
   if (error) {
-    return <div className="product-page-error">Unable to load the privacy policy.</div>;
+    return <div className="content-page-error">Unable to load the privacy policy.</div>;
   }
 
   const policyContent = content.privacy_policy_content;

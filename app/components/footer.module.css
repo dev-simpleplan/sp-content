@@ -100,6 +100,8 @@
 }
 
 .spNewsletterField {
+    --sel-bg: #111111;
+    --sel-fg: #ffffff;
     display: flex;
     align-items: stretch;
     gap: 16px;
@@ -162,7 +164,7 @@
 
 .spFooterColumns {
     display: grid;
-    grid-template-columns: 2fr 2fr 1fr;
+    grid-template-columns: 1.5fr 1.7fr 1.4fr 1fr;
     gap: 32px;
     margin-bottom: 0px;
     margin-top: 140px;
@@ -301,7 +303,7 @@
     }
 
     .spFooterColumns {
-        grid-template-columns: 1.35fr 1.35fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         gap: 40px;
     }
 

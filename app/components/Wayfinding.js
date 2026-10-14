@@ -42,7 +42,7 @@ import styles from "./Wayfinding.module.css";
 // edge has scrolled up past this line.
 const REFERENCE_LINE_RATIO = 0.3;
 
-export default function Wayfinding({ sections = [], id, theme = "dark" }) {
+export default function Wayfinding({ sections = [], id, theme = "dark", className = "" }) {
   const [activeId, setActiveId] = useState(sections[0]?.id ?? null);
   const [isHovered, setIsHovered] = useState(false);
   const [railScale, setRailScale] = useState(1);
@@ -165,7 +165,7 @@ export default function Wayfinding({ sections = [], id, theme = "dark" }) {
     <nav
       className={`${styles.spWayfinding} ${
         theme === "light" ? styles.spWayfindingLight : ""
-      } ${theme === "product-contact" ? styles.spWayfindingProductContact : ""} side-rail`}
+      } ${theme === "contact" ? styles.spWayfindingContact : ""} side-rail${className ? ` ${className}` : ""}`}
       aria-label="Page sections"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

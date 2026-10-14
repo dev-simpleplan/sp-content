@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getImageUrl } from "../components/getImageUrl";
-import LeftSideLine from "../components/LeftSideLine";
 import RightSideLine from "../components/RightSideLine";
 import Wayfinding from "../components/Wayfinding";
 import LoadingScreen from "../components/LoadingScreen";
 import { useSetPreFooter } from "../context/PreFooterContext";
 import { asPlainText } from "../components/contactContent";
 import ContactForm from "../components/ContactForm";
+import GoogleMap from "../components/GoogleMap";
 import "./contactStyle.css";
 
 export default function ContactPage() {
@@ -23,14 +23,14 @@ export default function ContactPage() {
     let isCurrentRequest = true;
 
     axios
-      .get("/api/product-contact-us")
+      .get("/api/content-contact-us")
       .then(({ data }) => {
         if (!data?.data) throw new Error("API response structure is incorrect.");
         if (isCurrentRequest) setSections(data.data);
       })
       .catch((requestError) => {
         if (isCurrentRequest) {
-          console.error("Product Contact Us fetch error:", requestError);
+          console.error("Contact Us fetch error:", requestError);
           setError(requestError);
         }
       })
@@ -45,25 +45,24 @@ export default function ContactPage() {
 
   if (loading) return <LoadingScreen />;
   if (error || !sections) {
-    return <div className="product-page-error">Unable to load the product Contact Us page.</div>;
+    return <div className="content-page-error">Unable to load the Contact Us page.</div>;
   }
 
   const form = sections.contact_form_section;
   const simpleConnection = sections.simple_connection;
   const findUs = sections.find_us;
   const contactSections = [
-    { id: "product-contact-form", label: form?.tagline || "Contact Form" },
-    { id: "product-contact-next-steps", label: simpleConnection?.tagline || "Next Steps" },
-    { id: "product-contact-find-us", label: findUs?.tagline || "Address" },
+    { id: "content-contact-form", label: form?.tagline || "Contact Form" },
+    { id: "content-contact-next-steps", label: simpleConnection?.tagline || "Next Steps" },
+    { id: "content-contact-find-us", label: findUs?.tagline || "Address" },
   ];
 
   return (
     <>
-      <LeftSideLine />
       <RightSideLine />
-      <Wayfinding sections={contactSections} theme="product-contact" />
+      <Wayfinding sections={contactSections} theme="contact" />
 
-      <section className="contact-hero" id="product-contact-form">
+      <section className="contact-hero" id="content-contact-form">
         <div className="contact-container">
           <div className="contact-hero-grid gap-left">
             <div className="contact-hero-left">
@@ -78,7 +77,7 @@ export default function ContactPage() {
       </section>
 
       <section className="contact-connection-wrap">
-        <div className="contact-next-steps" id="product-contact-next-steps">
+        <div className="contact-next-steps" id="content-contact-next-steps">
           <div className="contact-container">
             <div className="contact-container-head gap-left">
               <h2 className="contact-section-title">{simpleConnection?.title}</h2>
@@ -97,15 +96,16 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="contact-find-us" id="product-contact-find-us">
+        <div className="contact-find-us" id="content-contact-find-us">
           <div className="contact-container">
             <div className="contact-container-head gap-left">
               <h2 className="contact-section-title">{findUs?.title}</h2>
               <div className="find-us-grid">
               <div className="find-us-map">
-                {findUs?.map_image && (
+                {/* {findUs?.map_image && (
                   <img src={getImageUrl(findUs.map_image)} alt="SimplePlan Media location map" />
-                )}
+                )} */}
+                <GoogleMap />
               </div>
               <div className="find-us-info">
                 <div className="find-us-block">

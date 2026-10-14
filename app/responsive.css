@@ -140,7 +140,7 @@
   }
 
   .video-animated-sticky {
-    height: 65vh;
+    height: 30vh;
   }
 
   .video-animated-inner {
@@ -347,7 +347,6 @@
 
   .approach-section {
     background-color: var(--sp-red);
-    padding: 50px 0 50px;
   }
 
   .approach-sec-in {
@@ -413,7 +412,7 @@
   }
 
   .founderSec-left-cntnt .ybf-img {
-    width: 50%;
+    width: 100%;
     height: auto;
     overflow: hidden;
     aspect-ratio: 2 / 2.5;
@@ -516,7 +515,7 @@
   }
 
   .home-banner {
-    padding: 100px 0px 0px;
+    padding: 100px 0px 40px;
     height: auto;
   }
 
@@ -541,7 +540,7 @@
   }
 
   .our-approach {
-    padding: 80px 0 50px;
+    padding: 0px 0 clamp(120px, 15vw, 200px);
   }
 
   .we-are-proud {
@@ -559,11 +558,6 @@
 
   .like-what-you-see {
     padding: 80px 0 100px;
-  }
-
-  .ready-to-build {
-    height: auto;
-    padding: 50px 0px;
   }
 
   .ready-to-build-in p {
@@ -735,7 +729,7 @@
 
   .founderSec-left-cntnt .ybf-img {
     aspect-ratio: 2 / 2.2;
-    width: calc(100% - 15px);
+    width: 100%;
   }
 
   .founder-slide-wrapper {
@@ -799,7 +793,8 @@
   }
 
   .spFor-good-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: start;
   }
 
   .approach-sec-in {
@@ -911,7 +906,8 @@
   }
 
   .spFor-good-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: start;
   }
 
   .for-good-img {
@@ -1029,13 +1025,13 @@
     transform: none !important;
   }
 
-  .ready-to-build {
-    height: auto;
-    padding: 15px 0 50px;
-  }
-
   .testimonial-section {
     padding: 100px 0 50px;
+  }
+
+  .ready-to-build .custom-cta-link:before,
+  .ready-to-build .custom-cta-link:after {
+    bottom: -10px;
   }
 
   .like-what-you-see {
@@ -1117,6 +1113,69 @@
   .service-we-are-proud .we-are-proud-in .fold-wrap .right {
     justify-content: flex-start;
     gap: 0;
+  }
+
+}
+
+@media (max-width: 1200px) {
+  .for-good-info {
+    max-width: 370px;
+    padding-bottom: 30px;
+  }
+
+  .for-good-img {
+    width: 60%;
+  }
+
+  .spFor-good-grid--align-start .for-good-info {
+    max-width: 370px;
+    padding-top: 30px;
+  }
+
+  .spFor-good-grid--align-start .for-good-img {
+    width: 60%;
+  }
+
+}
+
+@media (max-width: 991px) {
+  .for-good-info {
+    max-width: 680px;
+    padding-bottom: 30px;
+  }
+
+  .for-good-img {
+    width: 80%;
+  }
+
+  .spFor-good-grid--align-start .for-good-info {
+    max-width: 6800px;
+    padding-top: 30px;
+  }
+
+  .spFor-good-grid--align-start .for-good-img {
+    width: 80%;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .for-good-info {
+    max-width: 680px;
+    padding-bottom: 30px;
+  }
+
+  .for-good-img {
+    width: 100%;
+  }
+
+  .spFor-good-grid--align-start .for-good-info {
+    max-width: 680px;
+    padding-top: 30px;
+  }
+
+  .spFor-good-grid--align-start .for-good-img {
+    width: 100%;
   }
 
 }

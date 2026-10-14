@@ -90,14 +90,14 @@
     opacity: 1;
 }
 
-/* The product contact page starts on a white form section, so its first
+/* The contact page starts on a white form section, so its first
    section label needs a dark contrast while the remaining wayfinding labels
    keep their existing theme. */
-.spWayfindingProductContact .spWayfindingItem:first-child .spWayfindingLabel {
+.spWayfindingContact .spWayfindingItem:first-child .spWayfindingLabel {
     color: #111111;
 }
 
-.spWayfindingProductContact .spWayfindingItem:first-child .spWayfindingDotActive {
+.spWayfindingContact .spWayfindingItem:first-child .spWayfindingDotActive {
     background-color: #111111;
 }
 

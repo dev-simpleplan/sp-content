@@ -188,7 +188,7 @@ function MediaBlock({ image, videoUrl, alt }) {
   return <img src={thumbnailUrl} alt={alt || "Media"} className="img" />;
 }
 
-export default function Initiatives({ id, data }) {
+export default function Initiatives({ id, data, alignContentStart = false }) {
   if (!data) return null;
 
   const title = data?.title;
@@ -197,7 +197,11 @@ export default function Initiatives({ id, data }) {
       ? data.right_side_description
       : data?.description
   );
-  const subheading = getTextFromBlocks(data?.description)[0];
+  // Only show the description as a subheading when the right column has its
+  // own text — otherwise it's already rendered there and would be duplicated.
+  const subheading = data?.right_side_description?.length
+    ? getTextFromBlocks(data?.description)[0]
+    : undefined;
   const ctaText = data?.cta_text;
   const ctaLink = data?.cta_link;
   const media = data?.thumbnail || data?.image;
@@ -213,7 +217,9 @@ export default function Initiatives({ id, data }) {
             )}
           </div>
 
-          <div className="spFor-good-grid">
+          <div
+            className={`spFor-good-grid${alignContentStart ? " spFor-good-grid--align-start" : ""}`}
+          >
             <div className="for-good-img">
               <MediaBlock
                 image={media}
@@ -232,8 +238,9 @@ export default function Initiatives({ id, data }) {
     <Link
       href={ctaLink}
       className="custom-btn"
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(/^https?:\/\//.test(ctaLink)
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
     >
       <span>{ctaText}</span>
 

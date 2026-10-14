@@ -5,13 +5,10 @@ import { usePathname } from "next/navigation";
 import styles from "./header.module.css";
 import MainLogo from "./images/logo.png";
 import BlackLogo from "./images/logo-black.svg";
-import Image from "next/image";
 import Link from "next/link";
 import "../globals.css";
 import "../custom.css";
 import "../responsive.css";
-import axios from 'axios';
-import { getImageUrl } from "./getImageUrl";
 
 const CHEVRON_DOWN = (
   <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
@@ -77,58 +74,35 @@ const CLOSE_ICON = (
 // without it snapping shut in the gap between them.
 const CLOSE_DELAY_MS = 200;
 
-const PRODUCT_SHOP_COLUMNS = [
+const CONTENT_MENU_COLUMNS = [
   {
-    id: "product-audience",
+    id: "content-audience",
     page_name: "For",
     page_url: "#",
     sub_pages: [
-      { id: "freelancers", page_name: "Freelancers", page_url: "#" },
-      { id: "founders", page_name: "Founders", page_url: "#" },
-      { id: "agency-owners", page_name: "Agency Owners", page_url: "#" },
+      { id: "agency-freelancer", page_name: "Agency/freelancer", page_url: "#" },
+      { id: "business-owners", page_name: "Business Owners", page_url: "#" },
+      { id: "students", page_name: "Students", page_url: "#" },
     ],
   },
   {
-    id: "product-types",
-    page_name: "Products",
+    id: "content-popular-series",
+    page_name: "Our Popular Series",
     page_url: "#",
     sub_pages: [
-      { id: "guides", page_name: "Guides", page_url: "#" },
-      { id: "diy-templates", page_name: "DIY Templates", page_url: "#" },
-      { id: "website-templates", page_name: "Website Templates", page_url: "#" },
-      { id: "shopify-apps", page_name: "Shopify Apps", page_url: "#" },
+      { id: "sharmeeli-s1", page_name: "Sharmeeli - Build a Brand S1", page_url: "#" },
+      { id: "gutly-s2", page_name: "Gutly - Build a Brand S2", page_url: "#" },
     ],
   },
 ];
 
-const PRODUCT_SHOP_CTA = {
-  label: "Shop All Products",
-  href: "/shop",
-};
-
-const PRODUCT_ABOUT_LINK = "/about";
-
-function isPlaceholderLink(link) {
-  return !link || link === "#" || link === "#!";
-}
-
-function normalizeLink(link, fallback) {
-  return isPlaceholderLink(link) ? fallback : link;
-}
-
-function productMenuLink(link, id, fallback = "#") {
-  return normalizeLink(link, id ? `/category/${id}` : fallback);
-}
+const CONTENT_MENU_LABEL = "Our Content";
+const PAID_COURSE_LINK = { label: "Paid Course", href: "/paid-course" };
+const ABOUT_US_LINK = { label: "About Us", href: "/about" };
+const CTA = { label: "Get In Touch", href: "/contact" };
 
 export default function Header() {
   const pathname = usePathname();
-  const isProductHeader =
-    pathname === "/" ||
-    pathname === "/about" ||
-    pathname === "/shop" ||
-    pathname === "/contact" ||
-    pathname === "/privacy-policy" ||
-    pathname?.startsWith("/category");
 
   // Pages that get the white header + black logo. This is an ALLOWLIST —
   // only pages listed here (or nested under them) get the white treatment;
@@ -145,11 +119,10 @@ export default function Header() {
       (prefix) => pathname === prefix || pathname.startsWith(prefix + "/")
     );
 
-  const [isWhatWeDoOpen, setIsWhatWeDoOpen] = useState(false);
-  const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
+  const [isContentOpen, setIsContentOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileView, setMobileView] = useState("root"); // "root" | "what-we-do" | "about-us"
+  const [mobileView, setMobileView] = useState("root"); // "root" | "content"
   // Tracks which way the user is navigating between mobile menu panels so
   // the entrance animation can slide from the matching side (forward = in
   // from the right, back = in from the left) instead of always one fixed
@@ -161,41 +134,12 @@ export default function Header() {
   const headerBarRef = useRef(null);
   
   const closeTimeoutRef = useRef(null);
-  const [headerData, setHeaderData] = useState(null);
 
-  const headerMenu = headerData?.header_menu || [];
-  const findMenu = (targetName, fallbackIndex) =>
-    headerMenu.find(
-      (menu) => (menu?.page_name || "").trim().toLowerCase() === targetName
-    ) || headerMenu[fallbackIndex] || null;
+  const logoSrc = isInnerPage ? BlackLogo.src : MainLogo.src;
+  const logoWidth = MainLogo.width || 339;
+  const logoHeight = MainLogo.height || 73;
 
-  const whatWeDoMenu = findMenu("what we do", 0);
-  const aboutUsMenu = findMenu("about us", 1);
-  const ourWorkMenu = findMenu("our work", 2);
-
-  const whatWeDoColumns = isProductHeader
-    ? PRODUCT_SHOP_COLUMNS
-    : whatWeDoMenu?.mega_menu || [];
-  const aboutUsColumns = aboutUsMenu?.mega_menu || [];
-
-  const whatWeDoLabel = isProductHeader ? "Shop" : whatWeDoMenu?.page_name || "What We Do";
-  const aboutUsLabel = isProductHeader ? "About Us" : aboutUsMenu?.page_name || "About Us";
-  const ourWorkLabel = ourWorkMenu?.page_name || "Our Work";
-  const ourWorkLink = normalizeLink(ourWorkMenu?.page_url, "/our-work");
-  const ctaLink = isProductHeader
-    ? "/contact"
-    : normalizeLink(headerData?.cta_link, "/contact");
-  const ctaText = headerData?.cta_text || "Book A Call";
-  // MainLogo is a static-import object ({src, width, height, ...}), not a
-  // plain URL string — these render as a plain <img>, not next/image's
-  // <Image>, so it must be unwrapped to .src or the browser literally
-  // requests "[object Object]" until the CMS logo finishes loading.
-  const cmsLogo = headerData?.logo ? getImageUrl(headerData.logo) : null;
-  const logoSrc = isInnerPage ? BlackLogo.src : (cmsLogo || MainLogo.src);
-  const logoWidth = headerData?.logo?.width || MainLogo.width || 339;
-  const logoHeight = headerData?.logo?.height || MainLogo.height || 73;
-
-  const isAnyDesktopMenuOpen = isWhatWeDoOpen || isAboutUsOpen;
+  const isAnyDesktopMenuOpen = isContentOpen;
   const isAnyMenuOpen = isAnyDesktopMenuOpen || isMobileMenuOpen;
 
   // Close desktop dropdowns on outside click / Escape (kept as a safety net
@@ -203,14 +147,12 @@ export default function Header() {
   useEffect(() => {
     function handleClickOutside(event) {
       if (headerRef.current && !headerRef.current.contains(event.target)) {
-        setIsWhatWeDoOpen(false);
-        setIsAboutUsOpen(false);
+        setIsContentOpen(false);
       }
     }
     function handleEscape(event) {
       if (event.key === "Escape") {
-        setIsWhatWeDoOpen(false);
-        setIsAboutUsOpen(false);
+        setIsContentOpen(false);
         setIsMobileMenuOpen(false);
       }
     }
@@ -222,18 +164,14 @@ export default function Header() {
     };
   }, []);
 
-useEffect(() => {
-        async function fetchHeaderData() {
-            try {
-                const response = await axios.get("/api/header");
-                setHeaderData(response.data?.data || null);
-            } catch (error) {
-                console.error("Error fetching header data:", error);
-            }
-        }
-
-        fetchHeaderData();
-    }, []);
+  // Mirror "header is slid out of view" on <body> so sticky content below it
+  // (e.g. the pinned playlist video) can move up to the top edge in step with
+  // the header instead of leaving a gap where the page shows through.
+  const isHeaderHidden = isInStickySection || isHiddenByScroll;
+  useEffect(() => {
+    document.body.classList.toggle("header-hidden", isHeaderHidden);
+    return () => document.body.classList.remove("header-hidden");
+  }, [isHeaderHidden]);
 
   // Single source of truth for isInStickySection: combines
   // (a) GSAP-pinned sections, tracked via the "sticky-section-active"
@@ -368,22 +306,15 @@ useEffect(() => {
     return () => clearTimeout(closeTimeoutRef.current);
   }, []);
 
-  function openMenu(menu) {
+  function openMenu() {
     clearTimeout(closeTimeoutRef.current);
-    if (menu === "what-we-do") {
-      setIsWhatWeDoOpen(true);
-      setIsAboutUsOpen(false);
-    } else {
-      setIsAboutUsOpen(true);
-      setIsWhatWeDoOpen(false);
-    }
+    setIsContentOpen(true);
   }
 
   function scheduleClose() {
     clearTimeout(closeTimeoutRef.current);
     closeTimeoutRef.current = setTimeout(() => {
-      setIsWhatWeDoOpen(false);
-      setIsAboutUsOpen(false);
+      setIsContentOpen(false);
     }, CLOSE_DELAY_MS);
   }
 
@@ -412,143 +343,95 @@ useEffect(() => {
 
   return (
     <header
-  className={`${styles.spHeader} ${
-    isProductHeader ? styles.spProductHeader : ""
-  } ${
-    isScrolled ? styles.spHeaderScrolled : ""
-  } ${isAnyMenuOpen ? styles.spHeaderMenuOpen : ""} ${
-    (isInStickySection || isHiddenByScroll) ? styles.spHeaderHidden : ""
-  } ${isInnerPage ? styles.spHeaderWhite : ""}`}
-  ref={headerRef}
->
-  {isProductHeader && (
-    <div className={styles.spOfferBar}>
-      <strong>Limited Time Offer</strong>
-      <span aria-hidden="true">•</span>
-      <span>Join 1,000+ builders. Use code <b>GROW20</b> for 20% off all bundles.</span>
-    </div>
-  )}
-  <div className={styles.spHeaderInner}>
-      <div className={styles.spHeaderBar} ref={headerBarRef}>
-  <Link href="/" className={styles.spLogo}>
-    <img
-      src={logoSrc}
-      alt="SimplePlan Logo"
-      width={logoWidth}
-      height={logoHeight}
-      draggable="false"
-    />
-  </Link>
-
-  {/* Two crossfading layers occupying the exact same box — nothing here
-      ever changes width/margin/position via a toggled class, so there is
-      nothing for the browser to "snap". Only opacity/transform animate,
-      which is always smooth. */}
-  <div className={styles.spNavClusterWrap}>
-
-    {/* Layer 1 — default state: nav flush right, no CTA */}
-    <div
-      className={`${styles.spNavCluster} ${
-        !isScrolled ? styles.spNavClusterActive : ""
-      }`}
+      className={`${styles.spHeader} ${styles.spProductHeader} ${
+        isScrolled ? styles.spHeaderScrolled : ""
+      } ${isAnyMenuOpen ? styles.spHeaderMenuOpen : ""} ${
+        (isInStickySection || isHiddenByScroll) ? styles.spHeaderHidden : ""
+      } ${isInnerPage ? styles.spHeaderWhite : ""}`}
+      ref={headerRef}
     >
+      <div className={styles.spHeaderInner}>
+        <div className={styles.spHeaderBar} ref={headerBarRef}>
+          <Link href="/" className={styles.spLogo}>
+            <img
+              src={logoSrc}
+              alt="SimplePlan Logo"
+              width={logoWidth}
+              height={logoHeight}
+              draggable="false"
+            />
+          </Link>
+
+          {/* Two crossfading layers occupying the exact same box — nothing here
+              ever changes width/margin/position via a toggled class, so there is
+              nothing for the browser to "snap". Only opacity/transform animate,
+              which is always smooth. */}
+          <div className={styles.spNavClusterWrap}>
+            {/* Layer 1 — default state: nav centered, no CTA */}
+            <div
+              className={`${styles.spNavCluster} ${
+                !isScrolled ? styles.spNavClusterActive : ""
+              }`}
+            >
       <nav className={styles.spNav} aria-label="Primary">
         <button
           type="button"
-          className={`${styles.spNavItem} ${isWhatWeDoOpen ? styles.spNavItemActive : ""}`}
-          aria-expanded={isWhatWeDoOpen}
-          onMouseEnter={() => openMenu("what-we-do")}
+          className={`${styles.spNavItem} ${isContentOpen ? styles.spNavItemActive : ""}`}
+          aria-expanded={isContentOpen}
+          onMouseEnter={openMenu}
           onMouseLeave={scheduleClose}
-          onFocus={() => openMenu("what-we-do")}
+          onFocus={openMenu}
           onBlur={scheduleClose}
         >
-          <span>{whatWeDoLabel}</span>
-          <span className={`${styles.spChevron} ${isWhatWeDoOpen ? styles.spChevronOpen : ""}`}>
+          <span>{CONTENT_MENU_LABEL}</span>
+          <span className={`${styles.spChevron} ${isContentOpen ? styles.spChevronOpen : ""}`}>
             {CHEVRON_DOWN}
           </span>
         </button>
 
-        {isProductHeader ? (
-          <Link href={PRODUCT_ABOUT_LINK} className={styles.spNavLink}>
-            {aboutUsLabel}
-          </Link>
-        ) : (
-          <button
-            type="button"
-            className={`${styles.spNavItem} ${isAboutUsOpen ? styles.spNavItemActive : ""}`}
-            aria-expanded={isAboutUsOpen}
-            onMouseEnter={() => openMenu("about-us")}
-            onMouseLeave={scheduleClose}
-            onFocus={() => openMenu("about-us")}
-            onBlur={scheduleClose}
-          >
-            <span>{aboutUsLabel}</span>
-            <span className={`${styles.spChevron} ${isAboutUsOpen ? styles.spChevronOpen : ""}`}>
-              {CHEVRON_DOWN}
-            </span>
-          </button>
-        )}
+        <Link href={PAID_COURSE_LINK.href} className={styles.spNavLink}>
+          {PAID_COURSE_LINK.label}
+        </Link>
 
-        {!isProductHeader && (
-          <a href={ourWorkLink} className={styles.spNavLink}>
-            {ourWorkLabel}
-          </a>
-        )}
+        <Link href={ABOUT_US_LINK.href} className={styles.spNavLink}>
+          {ABOUT_US_LINK.label}
+        </Link>
       </nav>
-    </div>
+            </div>
 
-    {/* Layer 2 — scrolled/sticky state: nav centered, CTA visible on the right */}
-    <div
-      className={`${styles.spNavCluster} ${styles.spNavClusterSticky} ${
-        isScrolled ? styles.spNavClusterActive : ""
-      }`}
-    >
+            {/* Layer 2 — scrolled/sticky state: nav + CTA visible on the right */}
+            <div
+              className={`${styles.spNavCluster} ${styles.spNavClusterSticky} ${
+                isScrolled ? styles.spNavClusterActive : ""
+              }`}
+            >
       <nav className={styles.spNav} aria-label="Primary">
         <button
           type="button"
-          className={`${styles.spNavItem} ${isWhatWeDoOpen ? styles.spNavItemActive : ""}`}
-          aria-expanded={isWhatWeDoOpen}
-          onMouseEnter={() => openMenu("what-we-do")}
+          className={`${styles.spNavItem} ${isContentOpen ? styles.spNavItemActive : ""}`}
+          aria-expanded={isContentOpen}
+          onMouseEnter={openMenu}
           onMouseLeave={scheduleClose}
-          onFocus={() => openMenu("what-we-do")}
+          onFocus={openMenu}
           onBlur={scheduleClose}
         >
-          <span>{whatWeDoLabel}</span>
-          <span className={`${styles.spChevron} ${isWhatWeDoOpen ? styles.spChevronOpen : ""}`}>
+          <span>{CONTENT_MENU_LABEL}</span>
+          <span className={`${styles.spChevron} ${isContentOpen ? styles.spChevronOpen : ""}`}>
             {CHEVRON_DOWN}
           </span>
         </button>
 
-        {isProductHeader ? (
-          <Link href={PRODUCT_ABOUT_LINK} className={styles.spNavLink}>
-            {aboutUsLabel}
-          </Link>
-        ) : (
-          <button
-            type="button"
-            className={`${styles.spNavItem} ${isAboutUsOpen ? styles.spNavItemActive : ""}`}
-            aria-expanded={isAboutUsOpen}
-            onMouseEnter={() => openMenu("about-us")}
-            onMouseLeave={scheduleClose}
-            onFocus={() => openMenu("about-us")}
-            onBlur={scheduleClose}
-          >
-            <span>{aboutUsLabel}</span>
-            <span className={`${styles.spChevron} ${isAboutUsOpen ? styles.spChevronOpen : ""}`}>
-              {CHEVRON_DOWN}
-            </span>
-          </button>
-        )}
+        <Link href={PAID_COURSE_LINK.href} className={styles.spNavLink}>
+          {PAID_COURSE_LINK.label}
+        </Link>
 
-        {!isProductHeader && (
-          <a href={ourWorkLink} className={styles.spNavLink}>
-            {ourWorkLabel}
-          </a>
-        )}
+        <Link href={ABOUT_US_LINK.href} className={styles.spNavLink}>
+          {ABOUT_US_LINK.label}
+        </Link>
       </nav>
 
-      <Link href={ctaLink} className={`custom-btn ${styles.spHeaderCta}`}>
-        <span>{ctaText}</span>
+      <Link href={CTA.href} className={`custom-btn ${styles.spHeaderCta}`}>
+        <span>{CTA.label}</span>
         <span className="arrow-wrap">
           <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0.878125 11.6667L0 10.7885L9.53854 1.25H3.75V0H11.6667V7.91667H10.4167V2.12813L0.878125 11.6667Z" fill="currentColor" />
@@ -558,122 +441,64 @@ useEffect(() => {
           </svg>
         </span>
       </Link>
-    </div>
-  </div>
+            </div>
+          </div>
 
-  {/* Mobile hamburger trigger */}
-  <button
-    type="button"
-    className={`${styles.spHamburgerBtn} ${isMobileMenuOpen ? styles.spHamburgerBtnOpen : ""}`}
-    aria-label="Open menu"
-    aria-expanded={isMobileMenuOpen}
-    onClick={openMobileMenu}
-  >
-    <span className={styles.spHamburgerBar}></span>
-    <span className={styles.spHamburgerBar}></span>
-    <span className={styles.spHamburgerBar}></span>
-  </button>
-</div>
-</div>
+          {/* Mobile hamburger trigger */}
+          <button
+            type="button"
+            className={`${styles.spHamburgerBtn} ${isMobileMenuOpen ? styles.spHamburgerBtnOpen : ""}`}
+            aria-label="Open menu"
+            aria-expanded={isMobileMenuOpen}
+            onClick={openMobileMenu}
+          >
+            <span className={styles.spHamburgerBar}></span>
+            <span className={styles.spHamburgerBar}></span>
+            <span className={styles.spHamburgerBar}></span>
+          </button>
+        </div>
+      </div>
 
-      {/* Desktop mega menu — What We Do */}
+      {/* Desktop mega menu — Our Content */}
       <div
         className={`${styles.spMegaMenu} ${
-          isWhatWeDoOpen ? styles.spMegaMenuOpen : ""
+          isContentOpen ? styles.spMegaMenuOpen : ""
         }`}
         onMouseEnter={cancelScheduledClose}
         onMouseLeave={scheduleClose}
       >
-      <div className={styles.spMegaMenuMain}>
-        <div className={styles.spMegaMenuInner}>
-          <div className={styles.spMegaMenuTop}>
-            <div className={styles.spMegaMenuColumns}>
-              {whatWeDoColumns.map((column) => (
-                <div className={styles.spMegaMenuColumn} key={column.id}>
-                  <a href={isProductHeader ? productMenuLink(column.page_url, column.id) : (column.page_url || "#")} className={styles.spMegaMenuColumnTitle}>
-                    <span>{column.page_name}</span>
-                  </a>
-                  <ul className={styles.spMegaMenuLinkList}>
-                    {(column.sub_pages || []).map((sub) => (
-                      <li key={sub.id}>
-                        <a href={isProductHeader ? productMenuLink(sub.page_url, sub.id) : (sub.page_url || "#")} className={styles.spMegaMenuLink}>
+        <div className={styles.spMegaMenuMain}>
+          <div className={styles.spMegaMenuInner}>
+            <div className={styles.spMegaMenuTop}>
+              <div className={styles.spMegaMenuColumns}>
+                {CONTENT_MENU_COLUMNS.map((column) => (
+                  <div className={styles.spMegaMenuColumn} key={column.id}>
+                    <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
+                      <span>{column.page_name}</span>
+                    </a>
+                    <ul className={styles.spMegaMenuLinkList}>
+                      {column.sub_pages.map((sub) => (
+                        <li key={sub.id}>
+                          <a href={sub.page_url || "#"} className={styles.spMegaMenuLink}>
                             <span>{sub.page_name}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            {isProductHeader && (
-              <a
-                href={PRODUCT_SHOP_CTA.href}
-                className={styles.spProductShopAll}
-              >
-                <span>{PRODUCT_SHOP_CTA.label}</span>
-                {CHEVRON_RIGHT}
-              </a>
-            )}
-
-              <div className={styles.spMegaMenuImageWrap}>
-              <Image
-                className={styles.spMegaMenuImage}
-                src={isProductHeader ? "/dropdown-image.jpg" : "/dropdown-image.png"}
-                alt={isProductHeader ? "Product collection" : "The simpleplan team"}
-                width={100}
-                height={100}
-              />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-        </div>
-
       </div>
 
-      {/* Desktop mega menu — About Us */}
-      <div
-        className={`${styles.spMegaMenu} ${
-          isAboutUsOpen ? styles.spMegaMenuOpen : ""
-        }`}
-        onMouseEnter={cancelScheduledClose}
-        onMouseLeave={scheduleClose}
-      >
-        <div className={styles.spMegaMenuInner}>
-          {aboutUsColumns.length > 0 ? (
-            <div className={styles.spMegaMenuColumns}>
-              {aboutUsColumns.map((column) => (
-                <div className={styles.spMegaMenuColumn} key={column.id}>
-                  <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
-                    <span>{column.page_name}</span>
-                  </a>
-                  <ul className={styles.spMegaMenuLinkList}>
-                    {(column.sub_pages || []).map((sub) => (
-                      <li key={sub.id}>
-                        <a href={sub.page_url || "#"} className={styles.spMegaMenuLink}>
-                            <span>{sub.page_name}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
-          )}
-        </div>
-      </div>
-
-      {/* Single shared dim overlay for BOTH desktop mega menus — replaces
-          the old per-menu overlay so only one exists in the DOM at a time */}
+      {/* Dim overlay behind the desktop mega menu */}
       <div
         className={`${styles.spMegaBg} ${
           isAnyDesktopMenuOpen ? styles.spMegaBgOpen : ""
         }`}
-        onClick={() => {
-          setIsWhatWeDoOpen(false);
-          setIsAboutUsOpen(false);
-        }}
+        onClick={() => setIsContentOpen(false)}
       ></div>
 
       {/* Mobile menu overlay */}
@@ -703,7 +528,6 @@ useEffect(() => {
           </button>
         </div>
 
-        {/* Root list: product shop/about or the normal site's navigation */}
         {mobileView === "root" && (
           <div
             className={`${styles.spMobileBody} ${slideDirection === "back" ? styles.spMobileBodyBack : ""}`}
@@ -714,64 +538,50 @@ useEffect(() => {
                 <button
                   type="button"
                   className={styles.spMobileItemBtn}
-                  onClick={() => goToMobileView("what-we-do", "forward")}
+                  onClick={() => goToMobileView("content", "forward")}
                 >
-                  <span>{whatWeDoLabel}</span>
+                  <span>{CONTENT_MENU_LABEL}</span>
                   <span className={styles.spMobileChevron}>
                     {CHEVRON_RIGHT}
                   </span>
                 </button>
               </li>
               <li className={styles.spMobileItem}>
-                {isProductHeader ? (
-                  <a
-                    href={PRODUCT_ABOUT_LINK}
-                    className={styles.spMobileItemBtn}
-                    onClick={closeMobileMenu}
-                  >
-                    <span>{aboutUsLabel}</span>
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    className={styles.spMobileItemBtn}
-                    onClick={() => goToMobileView("about-us", "forward")}
-                  >
-                    <span>{aboutUsLabel}</span>
-                    <span className={styles.spMobileChevron}>
-                      {CHEVRON_RIGHT}
-                    </span>
-                  </button>
-                )}
+                <Link
+                  href={PAID_COURSE_LINK.href}
+                  className={styles.spMobileItemBtn}
+                  onClick={closeMobileMenu}
+                >
+                  <span>{PAID_COURSE_LINK.label}</span>
+                </Link>
               </li>
-              {!isProductHeader && (
-                <li className={styles.spMobileItemNoBorder}>
-                  <a
-                    href={ourWorkLink}
-                    className={styles.spMobileItemBtn}
-                    onClick={closeMobileMenu}
-                  >
-                    <span>{ourWorkLabel}</span>
-                  </a>
-                </li>
-              )}
+              <li className={styles.spMobileItemNoBorder}>
+                <Link
+                  href={ABOUT_US_LINK.href}
+                  className={styles.spMobileItemBtn}
+                  onClick={closeMobileMenu}
+                >
+                  <span>{ABOUT_US_LINK.label}</span>
+                </Link>
+              </li>
             </ul>
 
-            <a
-              href={normalizeLink(headerData?.cta_link, "#")}
+            <Link
+              href={CTA.href}
               className={`${styles.spMobileCta} ${slideDirection !== "back" ? styles.spMobileCtaDelayed : ""}`}
+              onClick={closeMobileMenu}
             >
-              <span>{ctaText}</span>
+              <span>{CTA.label}</span>
               <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
-            </a>
+            </Link>
           </div>
         )}
 
-        {/* What We Do drill-down */}
-        {mobileView === "what-we-do" && (
+        {/* Our Content drill-down */}
+        {mobileView === "content" && (
           <div
             className={`${styles.spMobileBody} ${slideDirection === "back" ? styles.spMobileBodyBack : ""}`}
-            key="what-we-do"
+            key="content"
           >
             <button
               type="button"
@@ -779,22 +589,22 @@ useEffect(() => {
               onClick={() => goToMobileView("root", "back")}
             >
               <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
-              <span>{whatWeDoLabel}</span>
+              <span>{CONTENT_MENU_LABEL}</span>
             </button>
             <div className={styles.spMobileSubList}>
-              {whatWeDoColumns.map((column) => (
+              {CONTENT_MENU_COLUMNS.map((column) => (
                 <div className={styles.spMobileGroup} key={column.id}>
-                  <a href={isProductHeader ? productMenuLink(column.page_url, column.id) : (column.page_url || "#")} className={styles.spMobileGroupTitle}>
+                  <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
                     <span>{column.page_name}</span>
                     <span className={styles.spMobileChevron}>
                       {CHEVRON_RIGHT}
                     </span>
                   </a>
                   <ul className={styles.spMobileGroupLinks}>
-                    {(column.sub_pages || []).map((sub) => (
+                    {column.sub_pages.map((sub) => (
                       <li key={sub.id}>
                         <a
-                          href={isProductHeader ? productMenuLink(sub.page_url, sub.id) : (sub.page_url || "#")}
+                          href={sub.page_url || "#"}
                           className={styles.spMobileGroupLink}
                           onClick={closeMobileMenu}
                         >
@@ -806,62 +616,6 @@ useEffect(() => {
                 </div>
               ))}
             </div>
-            {isProductHeader && (
-              <a
-                href={PRODUCT_SHOP_CTA.href}
-                className={styles.spMobileShopAll}
-                onClick={closeMobileMenu}
-              >
-                <span>{PRODUCT_SHOP_CTA.label}</span>
-                {CHEVRON_RIGHT}
-              </a>
-            )}
-          </div>
-        )}
-
-        {/* About Us drill-down */}
-        {mobileView === "about-us" && (
-          <div
-            className={`${styles.spMobileBody} ${slideDirection === "back" ? styles.spMobileBodyBack : ""}`}
-            key="about-us"
-          >
-            <button
-              type="button"
-              className={styles.spMobileBackBtn}
-              onClick={() => goToMobileView("root", "back")}
-            >
-              <span className={styles.spMobileBackIcon}>{ARROW_LEFT}</span>
-              <span>{aboutUsLabel}</span>
-            </button>
-            {aboutUsColumns.length > 0 ? (
-              <div className={styles.spMobileSubList}>
-                {aboutUsColumns.map((column) => (
-                  <div className={styles.spMobileGroup} key={column.id}>
-                    <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
-                      <span>{column.page_name}</span>
-                      <span className={styles.spMobileChevron}>
-                        {CHEVRON_RIGHT}
-                      </span>
-                    </a>
-                    <ul className={styles.spMobileGroupLinks}>
-                      {(column.sub_pages || []).map((sub) => (
-                        <li key={sub.id}>
-                          <a
-                            href={sub.page_url || "#"}
-                            className={styles.spMobileGroupLink}
-                            onClick={closeMobileMenu}
-                          >
-                            {sub.page_name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className={styles.spMegaMenuEmpty}>No items to show yet.</p>
-            )}
           </div>
         )}
       </div>

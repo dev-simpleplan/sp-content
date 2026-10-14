@@ -285,8 +285,8 @@
   gap: 40px;
 }
 
-#product-contact-next-steps .next-steps-grid,
-#product-contact-find-us .find-us-grid {
+#content-contact-next-steps .next-steps-grid,
+#content-contact-find-us .find-us-grid {
   margin-top: 100px;
 }
 
@@ -400,8 +400,8 @@
     max-width: 50ch;
   }
 
-  #product-contact-next-steps .next-steps-grid,
-  #product-contact-find-us .find-us-grid {
+  #content-contact-next-steps .next-steps-grid,
+  #content-contact-find-us .find-us-grid {
     margin-top: 80px;
   }
 }
@@ -453,8 +453,8 @@
     padding-top: 0;
   }
 
-  #product-contact-next-steps .next-steps-grid,
-  #product-contact-find-us .find-us-grid {
+  #content-contact-next-steps .next-steps-grid,
+  #content-contact-find-us .find-us-grid {
     margin-top: 60px;
   }
 

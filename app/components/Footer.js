@@ -26,7 +26,12 @@ function getLinkProps(href) {
 
 const pick = (list, fallback) => (list?.length ? list : fallback);
 
-const FALLBACK_PAGES = [
+const PAGES_LINKS = [
+  { id: "about", item_name: "About Us", item_link: "/about" },
+  { id: "paid-course", item_name: "Paid Course", item_link: "/paid-course" },
+];
+
+const LEGAL_LINKS = [
   { id: "privacy", item_name: "Privacy Policy", item_link: "/privacy-policy" },
   { id: "terms", item_name: "Terms & Conditions", item_link: "#" },
 ];
@@ -84,25 +89,15 @@ export default function Footer() {
     fetchFooterData();
   }, []);
 
-  const ALLOWED_PAGE_LINKS = ["/privacy-policy", "#"];
-
-const footerColumns = [
-  {
-    id: "pages",
-    title: "Pages",
-    links: pick(
-      footerData?.pages_menu?.filter((l) =>
-        ALLOWED_PAGE_LINKS.includes(normalizeLink(l.item_link))
-      ),
-      FALLBACK_PAGES
-    ),
-  },
-  {
-    id: "socials",
-    title: "Socials",
-    links: pick(footerData?.social_link_menu, FALLBACK_SOCIALS),
-  },
-];
+  const footerColumns = [
+    { id: "pages", title: "Pages", links: PAGES_LINKS },
+    { id: "legal-pages", title: "Legal Pages", links: LEGAL_LINKS },
+    {
+      id: "socials",
+      title: "Socials",
+      links: pick(footerData?.social_link_menu, FALLBACK_SOCIALS),
+    },
+  ];
 
   const contactLinks = pick(footerData?.contact_us_menu, FALLBACK_CONTACTS);
 

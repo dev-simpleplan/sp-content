@@ -8,6 +8,7 @@ import ApproachBranding from "../service/ApproachBranding";
 import PlaylistVideos from "../PlaylistVideos";
 import HomeBestsellingProducts from "../HomeBestsellingProducts";
 import Wayfinding from "../Wayfinding";
+import LoadingScreen from "../LoadingScreen";
 import { getYouTubeId } from "../../lib/youtubeApi";
 import { useSetPreFooter } from "../../context/PreFooterContext";
 
@@ -73,9 +74,58 @@ export default function ContentInnerTemplate({ content }) {
     return () => observer.disconnect();
   }, []);
 
+  // The record is fetched on the server, so the page arrives ready — but its
+  // images don't. Like the other pages, show the loading screen until the
+  // images on the page have loaded. It is a full-screen overlay, so the page
+  // can mount (and start loading images) underneath it.
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
-    window.dispatchEvent(new Event("app:content-ready"));
+    const MAX_WAIT_MS = 5000;
+    let cancelled = false;
+    let settled = false;
+    let pending = [];
+    let timeout;
+
+    const finish = () => {
+      if (cancelled || settled) return;
+      settled = true;
+      setReady(true);
+    };
+
+    const frame = requestAnimationFrame(() => {
+      pending = Array.from(document.images).filter((image) => !image.complete);
+      if (!pending.length) {
+        finish();
+        return;
+      }
+
+      let remaining = pending.length;
+      const onSettled = () => {
+        remaining -= 1;
+        if (remaining === 0) finish();
+      };
+
+      pending.forEach((image) => {
+        image.addEventListener("load", onSettled, { once: true });
+        image.addEventListener("error", onSettled, { once: true });
+      });
+
+      // never leave the visitor on the loader if an image hangs
+      timeout = setTimeout(finish, MAX_WAIT_MS);
+    });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+      clearTimeout(timeout);
+    };
   }, []);
+
+  // Start the reveal animations once the loading screen has gone.
+  useEffect(() => {
+    if (ready) window.dispatchEvent(new Event("app:content-ready"));
+  }, [ready]);
 
   // Sections are added here one by one as they're built.
   const wayfindingSections = [
@@ -92,6 +142,7 @@ export default function ContentInnerTemplate({ content }) {
 
   return (
     <>
+      {!ready && <LoadingScreen />}
       {/* The Wayfinding rail draws its own side line, so only one of the two
           is ever mounted — two stacked lines would hide at different moments
           near the footer and show up as a second line. */}

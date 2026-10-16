@@ -9,46 +9,14 @@ import PlaylistVideos from "../PlaylistVideos";
 import HomeBestsellingProducts from "../HomeBestsellingProducts";
 import Wayfinding from "../Wayfinding";
 import LoadingScreen from "../LoadingScreen";
-import { getYouTubeId } from "../../lib/youtubeApi";
 import { useSetPreFooter } from "../../context/PreFooterContext";
-
-// TEMP — test video used wherever the CMS link is still "#", so playback can
-// be checked end to end. Delete this constant and `withTestVideo` (and the
-// two calls below) once real links are in Strapi.
-const TEST_VIDEO_URLS = [
-  "https://youtu.be/KLBIVfHgD4o?si=gq49nqKgPw44QvDA",
-  "https://youtu.be/D8pcjoBY3QM?si=kjve_8_zRqsqO3VG",
-  "https://youtu.be/mzSAWAZpzc0?si=C-iAvAyXst4zDkw8",
-];
-// Banner uses the first; playlist episodes use the one at their position.
-const withTestVideo = (url, index = 0) =>
-  !url || url === "#" ? TEST_VIDEO_URLS[index] || TEST_VIDEO_URLS[0] : url;
-// The CMS currently has the same thumbnail on every episode, so while testing
-// each episode shows its own video's YouTube thumbnail instead.
-const testThumbnail = (url) => {
-  const id = getYouTubeId(url);
-  return id ? { url: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg` } : null;
-};
 
 // Inner page for a single piece of content (video). The record is looked up
 // by slug on the server (see app/content/[slug]/page.js); its sections are
 // added to the render below one by one.
 export default function ContentInnerTemplate({ content }) {
-  const bannerData = content.video_inner_banner && {
-    ...content.video_inner_banner,
-    videourl: withTestVideo(content.video_inner_banner.videourl),
-  };
-  const playlistData = content.more_videos && {
-    ...content.more_videos,
-    video_playlist: (content.more_videos.video_playlist || []).map((episode, index) => {
-      const video_link = withTestVideo(episode.video_link, index);
-      return {
-        ...episode,
-        video_link,
-        video_thumbnail: testThumbnail(video_link) || episode.video_thumbnail,
-      };
-    }),
-  };
+  const bannerData = content.video_inner_banner;
+  const playlistData = content.more_videos;
 
   useSetPreFooter(content?.pre_footer);
 

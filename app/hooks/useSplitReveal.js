@@ -80,9 +80,13 @@ export default function useSplitReveal() {
       ScrollTrigger.refresh();
     }
 
+    // Frame id kept so cleanup can cancel the first init (see
+    // useRevealHeading: StrictMode re-mounts would otherwise leave an
+    // orphaned, never-reverted split behind).
+    let frameId = 0;
     const ctx = gsap.context(() => {
       // Wait one frame so DOM is fully rendered
-      requestAnimationFrame(initSplitReveal);
+      frameId = requestAnimationFrame(initSplitReveal);
     });
 
     let resizeTimer;
@@ -99,6 +103,7 @@ export default function useSplitReveal() {
     window.addEventListener("app:content-ready", initSplitReveal);
 
     return () => {
+      cancelAnimationFrame(frameId);
       clearTimeout(resizeTimer);
       splitInstances.forEach((instance) => instance.revert());
 

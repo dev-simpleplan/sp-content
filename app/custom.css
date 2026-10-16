@@ -663,7 +663,7 @@ section#content-about-hero p {
 .home-bestselling-products__tabs {
   display: flex;
   gap: clamp(32px, 4.7vw, 68px);
-  margin: 38px 0 100px;
+  margin: 38px 0 85px;
   position: relative;
 }
 
@@ -1343,7 +1343,7 @@ section#content-inner-resources .home-bestselling-products__viewport {
 .for-good-video-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 449/580;
   overflow: hidden;
   background: #000;
 }
@@ -4116,6 +4116,10 @@ section#paid-course-solution {
 .approach-sec-in .heading {
   max-width: 700px;
   margin-bottom: 0px;
+}
+
+#content-about-agency-secrets .approach-sec-in .heading {
+  max-width: 950px;
 }
 
 #company_apprch .approach-sec-in .heading {

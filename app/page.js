@@ -123,7 +123,11 @@ export default function Home() {
     <>
       <Wayfinding sections={wayfindingSections} />
       <RightSideLine id="rightLine" />
-      <HomeBanner id="content-home-hero" data={banner} />
+      <HomeBanner
+        id="content-home-hero"
+        data={banner}
+        primaryScrollTo="content-home-most-popular"
+      />
       <VideoAnimated id="content-home-video" data={video} />
       <ProductStats id="content-home-stats" stats={stats} />
       <HomeBestsellingProducts id="content-home-learning-path" data={learningPath} />

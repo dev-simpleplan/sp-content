@@ -75,8 +75,15 @@ export default function useRevealHeading() {
 
         }
 
+        // Keep the frame id so cleanup can cancel the first init. Without
+        // this, React StrictMode (dev) mounts, cleans up and re-mounts this
+        // effect, and the *first* mount's queued frame still runs afterwards:
+        // it splits headings into an instance list nobody owns any more, so
+        // later refreshes can neither revert that split nor re-animate it
+        // (the "already split" guard skips it) and the headings stay hidden.
+        let frameId = 0;
         const ctx = gsap.context(() => {
-            requestAnimationFrame(initRevealHeadings);
+            frameId = requestAnimationFrame(initRevealHeadings);
         });
 
         function handleRefresh() {
@@ -93,6 +100,7 @@ export default function useRevealHeading() {
         window.addEventListener("app:content-ready", handleRefresh);
 
         return () => {
+            cancelAnimationFrame(frameId);
             window.removeEventListener("resize", handleRefresh);
             window.removeEventListener("app:content-ready", handleRefresh);
             splitInstances.forEach((instance) => instance.revert());

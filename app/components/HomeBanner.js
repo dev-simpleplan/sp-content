@@ -1,8 +1,22 @@
 "use client";
 import Link from "next/link";
 
-export default function HomeBanner({ id, data }) {
+// primaryScrollTo: id of a section on the same page. When set, the primary
+// CTA smooth-scrolls to that section instead of following its CMS link.
+export default function HomeBanner({ id, data, primaryScrollTo }) {
   if (!data) return null;
+
+  const handlePrimaryClick = (event) => {
+    const target = primaryScrollTo && document.getElementById(primaryScrollTo);
+    if (!target) return; // no such section: fall back to the normal link
+
+    event.preventDefault();
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    target.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  };
 
   // The home/about banners send headline + subtext + primary/secondary CTAs;
   // the paid course banner sends title + rich-text description + one CTA and
@@ -22,7 +36,11 @@ export default function HomeBanner({ id, data }) {
           <p>{subtext}</p>
           <div className="home-b-cta">
             {primaryText && (
-            <Link href={primaryLink || "#"} className="custom-btn">
+            <Link
+              href={primaryLink || "#"}
+              className="custom-btn"
+              onClick={handlePrimaryClick}
+            >
               <span>{primaryText}</span>
               <span className="arrow-wrap">
                   <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"

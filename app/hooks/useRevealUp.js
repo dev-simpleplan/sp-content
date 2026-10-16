@@ -60,10 +60,12 @@ export default function useRevealUp() {
             createdWrappers.length = 0;
         }
 
+        let frameId = 0;
         const ctx = gsap.context(() => {
             // Wait a frame so this only runs after React has committed the
             // current DOM, instead of racing a render that's still in flight.
-            requestAnimationFrame(initRevealUp);
+            // The id is kept so cleanup can cancel it (see useRevealHeading).
+            frameId = requestAnimationFrame(initRevealUp);
         });
 
         const handleContentReady = () => {
@@ -74,6 +76,7 @@ export default function useRevealUp() {
         window.addEventListener("app:content-ready", handleContentReady);
 
         return () => {
+            cancelAnimationFrame(frameId);
             window.removeEventListener("app:content-ready", handleContentReady);
             unwrapAll();
             ctx.revert(); // kills any ScrollTriggers/tweens this context created

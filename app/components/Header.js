@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import styles from "./header.module.css";
-import MainLogo from "./images/logo.png";
 import BlackLogo from "./images/logo-black.svg";
 import Link from "next/link";
+import axios from "axios";
+import { getImageUrl } from "./getImageUrl";
 import "../globals.css";
 import "../custom.css";
 import "../responsive.css";
@@ -74,32 +75,30 @@ const CLOSE_ICON = (
 // without it snapping shut in the gap between them.
 const CLOSE_DELAY_MS = 200;
 
-const CONTENT_MENU_COLUMNS = [
-  {
-    id: "content-audience",
-    page_name: "For",
-    page_url: "#",
-    sub_pages: [
-      { id: "agency-freelancer", page_name: "Agency/freelancer", page_url: "#" },
-      { id: "business-owners", page_name: "Business Owners", page_url: "#" },
-      { id: "students", page_name: "Students", page_url: "#" },
-    ],
-  },
-  {
-    id: "content-popular-series",
-    page_name: "Our Popular Series",
-    page_url: "#",
-    sub_pages: [
-      { id: "sharmeeli-s1", page_name: "Sharmeeli - Build a Brand S1", page_url: "#" },
-      { id: "gutly-s2", page_name: "Gutly - Build a Brand S2", page_url: "#" },
-    ],
-  },
-];
+// Everything in the header comes from Strapi (content-header), urls included.
+function parseHeader(data) {
+  const menu = data?.header_menu || [];
+  const dropdown = menu.find((item) => item.mega_menu?.length);
 
-const CONTENT_MENU_LABEL = "Our Content";
-const PAID_COURSE_LINK = { label: "Paid Course", href: "/paid-course" };
-const ABOUT_US_LINK = { label: "About Us", href: "/about" };
-const CTA = { label: "Get In Touch", href: "/contact" };
+  return {
+    logo: data?.logo || null,
+    contentLabel: dropdown?.page_name || "",
+    contentColumns: (dropdown?.mega_menu || []).map((column) => ({
+      ...column,
+      sub_pages: column.sub_pages || [],
+    })),
+    links: menu
+      .filter((item) => item !== dropdown)
+      .map((item) => ({
+        id: item.id,
+        label: item.page_name,
+        href: item.page_url || "#",
+      })),
+    cta: data?.cta_text
+      ? { label: data.cta_text, href: data.cta_link || "#" }
+      : null,
+  };
+}
 
 export default function Header() {
   const pathname = usePathname();
@@ -119,6 +118,28 @@ export default function Header() {
       (prefix) => pathname === prefix || pathname.startsWith(prefix + "/")
     );
 
+  const [header, setHeader] = useState(() => parseHeader(null));
+
+  useEffect(() => {
+    let cancelled = false;
+    axios
+      .get("/api/content-header")
+      .then(({ data }) => {
+        if (!cancelled && data?.data) setHeader(parseHeader(data.data));
+      })
+      .catch((error) => console.error("Content header fetch error:", error));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const {
+    contentLabel: CONTENT_MENU_LABEL,
+    contentColumns,
+    links: navLinks,
+    cta: CTA,
+  } = header;
+
   const [isContentOpen, setIsContentOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -135,9 +156,13 @@ export default function Header() {
   
   const closeTimeoutRef = useRef(null);
 
-  const logoSrc = isInnerPage ? BlackLogo.src : MainLogo.src;
-  const logoWidth = MainLogo.width || 339;
-  const logoHeight = MainLogo.height || 73;
+  const logoSrc = isInnerPage
+    ? BlackLogo.src
+    : header.logo
+      ? getImageUrl(header.logo)
+      : null;
+  const logoWidth = header.logo?.width || BlackLogo.width || 339;
+  const logoHeight = header.logo?.height || BlackLogo.height || 73;
 
   const isAnyDesktopMenuOpen = isContentOpen;
   const isAnyMenuOpen = isAnyDesktopMenuOpen || isMobileMenuOpen;
@@ -353,13 +378,13 @@ export default function Header() {
       <div className={styles.spHeaderInner}>
         <div className={styles.spHeaderBar} ref={headerBarRef}>
           <Link href="/" className={styles.spLogo}>
-            <img
+            {logoSrc && <img
               src={logoSrc}
               alt="SimplePlan Logo"
               width={logoWidth}
               height={logoHeight}
               draggable="false"
-            />
+            />}
           </Link>
 
           {/* Two crossfading layers occupying the exact same box — nothing here
@@ -374,6 +399,7 @@ export default function Header() {
               }`}
             >
       <nav className={styles.spNav} aria-label="Primary">
+        {contentColumns.length > 0 && (
         <button
           type="button"
           className={`${styles.spNavItem} ${isContentOpen ? styles.spNavItemActive : ""}`}
@@ -388,14 +414,13 @@ export default function Header() {
             {CHEVRON_DOWN}
           </span>
         </button>
+        )}
 
-        <Link href={PAID_COURSE_LINK.href} className={styles.spNavLink}>
-          {PAID_COURSE_LINK.label}
-        </Link>
-
-        <Link href={ABOUT_US_LINK.href} className={styles.spNavLink}>
-          {ABOUT_US_LINK.label}
-        </Link>
+        {navLinks.map((link) => (
+          <Link href={link.href} className={styles.spNavLink} key={link.id}>
+            {link.label}
+          </Link>
+        ))}
       </nav>
             </div>
 
@@ -406,6 +431,7 @@ export default function Header() {
               }`}
             >
       <nav className={styles.spNav} aria-label="Primary">
+        {contentColumns.length > 0 && (
         <button
           type="button"
           className={`${styles.spNavItem} ${isContentOpen ? styles.spNavItemActive : ""}`}
@@ -420,16 +446,16 @@ export default function Header() {
             {CHEVRON_DOWN}
           </span>
         </button>
+        )}
 
-        <Link href={PAID_COURSE_LINK.href} className={styles.spNavLink}>
-          {PAID_COURSE_LINK.label}
-        </Link>
-
-        <Link href={ABOUT_US_LINK.href} className={styles.spNavLink}>
-          {ABOUT_US_LINK.label}
-        </Link>
+        {navLinks.map((link) => (
+          <Link href={link.href} className={styles.spNavLink} key={link.id}>
+            {link.label}
+          </Link>
+        ))}
       </nav>
 
+      {CTA && (
       <Link href={CTA.href} className={`custom-btn ${styles.spHeaderCta}`}>
         <span>{CTA.label}</span>
         <span className="arrow-wrap">
@@ -441,6 +467,7 @@ export default function Header() {
           </svg>
         </span>
       </Link>
+      )}
             </div>
           </div>
 
@@ -471,7 +498,7 @@ export default function Header() {
           <div className={styles.spMegaMenuInner}>
             <div className={styles.spMegaMenuTop}>
               <div className={styles.spMegaMenuColumns}>
-                {CONTENT_MENU_COLUMNS.map((column) => (
+                {contentColumns.map((column) => (
                   <div className={styles.spMegaMenuColumn} key={column.id}>
                     <a href={column.page_url || "#"} className={styles.spMegaMenuColumnTitle}>
                       <span>{column.page_name}</span>
@@ -509,13 +536,13 @@ export default function Header() {
       >
         <div className={styles.spMobileHeader}>
           <Link href="/" className={styles.spLogo} onClick={closeMobileMenu}>
-            <img
+            {logoSrc && <img
               src={logoSrc}
               alt="SimplePlan Logo"
               width={logoWidth}
               height={logoHeight}
               draggable="false"
-            />
+            />}
           </Link>
 
           <button
@@ -534,6 +561,7 @@ export default function Header() {
             key="root"
           >
             <ul className={`${styles.spMobileList} ${slideDirection !== "back" ? styles.spMobileListDelayed : ""}`}>
+              {contentColumns.length > 0 && (
               <li className={styles.spMobileItem}>
                 <button
                   type="button"
@@ -546,26 +574,28 @@ export default function Header() {
                   </span>
                 </button>
               </li>
-              <li className={styles.spMobileItem}>
-                <Link
-                  href={PAID_COURSE_LINK.href}
-                  className={styles.spMobileItemBtn}
-                  onClick={closeMobileMenu}
+              )}
+              {navLinks.map((link, index) => (
+                <li
+                  className={
+                    index === navLinks.length - 1
+                      ? styles.spMobileItemNoBorder
+                      : styles.spMobileItem
+                  }
+                  key={link.id}
                 >
-                  <span>{PAID_COURSE_LINK.label}</span>
-                </Link>
-              </li>
-              <li className={styles.spMobileItemNoBorder}>
-                <Link
-                  href={ABOUT_US_LINK.href}
-                  className={styles.spMobileItemBtn}
-                  onClick={closeMobileMenu}
-                >
-                  <span>{ABOUT_US_LINK.label}</span>
-                </Link>
-              </li>
+                  <Link
+                    href={link.href}
+                    className={styles.spMobileItemBtn}
+                    onClick={closeMobileMenu}
+                  >
+                    <span>{link.label}</span>
+                  </Link>
+                </li>
+              ))}
             </ul>
 
+            {CTA && (
             <Link
               href={CTA.href}
               className={`${styles.spMobileCta} ${slideDirection !== "back" ? styles.spMobileCtaDelayed : ""}`}
@@ -574,6 +604,7 @@ export default function Header() {
               <span>{CTA.label}</span>
               <span className={styles.spBookCallIcon}>{ARROW_UP_RIGHT}</span>
             </Link>
+            )}
           </div>
         )}
 
@@ -592,7 +623,7 @@ export default function Header() {
               <span>{CONTENT_MENU_LABEL}</span>
             </button>
             <div className={styles.spMobileSubList}>
-              {CONTENT_MENU_COLUMNS.map((column) => (
+              {contentColumns.map((column) => (
                 <div className={styles.spMobileGroup} key={column.id}>
                   <a href={column.page_url || "#"} className={styles.spMobileGroupTitle}>
                     <span>{column.page_name}</span>

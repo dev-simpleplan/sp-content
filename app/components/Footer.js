@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { usePreFooterContext } from "../context/PreFooterContext";
+import { getImageUrl } from "./getImageUrl";
 
 function normalizeLink(link) {
   if (!link || link === "#" || link === "#!") return "#";
@@ -23,32 +24,6 @@ function getLinkProps(href) {
     ? { target: "_blank", rel: "noopener noreferrer" }
     : {};
 }
-
-const pick = (list, fallback) => (list?.length ? list : fallback);
-
-const PAGES_LINKS = [
-  { id: "about", item_name: "About Us", item_link: "/about" },
-  { id: "paid-course", item_name: "Paid Course", item_link: "/paid-course" },
-];
-
-const LEGAL_LINKS = [
-  { id: "privacy", item_name: "Privacy Policy", item_link: "/privacy-policy" },
-  { id: "terms", item_name: "Terms & Conditions", item_link: "#" },
-];
-
-const FALLBACK_SOCIALS = [
-  { id: "instagram", item_name: "Instagram", item_link: "https://www.instagram.com/simpleplanmedia/?hl=en" },
-  { id: "twitter", item_name: "Twitter", item_link: "https://twitter.com/simpleplanmedia" },
-  { id: "linkedin", item_name: "LinkedIn", item_link: "https://www.linkedin.com/company/simpleplan-media/" },
-  { id: "youtube", item_name: "YouTube", item_link: "https://www.youtube.com/@simpleplanmedia" },
-  { id: "behance", item_name: "Behance", item_link: "https://www.behance.net/simpleplanmedia" },
-  { id: "dribbble", item_name: "Dribbble", item_link: "https://dribbble.com/simpleplanmedia" },
-];
-
-const FALLBACK_CONTACTS = [
-  { id: "email", item_name: "hello@simpleplanmedia.com", item_link: "mailto:hello@simpleplanmedia.com" },
-  { id: "phone", item_name: "+91 - 9811-053-528", item_link: "tel:+919811053528" },
-];
 
 function FooterLink({ link }) {
   const href = normalizeLink(link.item_link);
@@ -78,7 +53,7 @@ export default function Footer() {
   useEffect(() => {
     async function fetchFooterData() {
       try {
-        const response = await axios.get("/api/footer");
+        const response = await axios.get("/api/content-footer");
 
         setFooterData(response.data?.data || null);
       } catch (error) {
@@ -90,16 +65,11 @@ export default function Footer() {
   }, []);
 
   const footerColumns = [
-    { id: "pages", title: "Pages", links: PAGES_LINKS },
-    { id: "legal-pages", title: "Legal Pages", links: LEGAL_LINKS },
-    {
-      id: "socials",
-      title: "Socials",
-      links: pick(footerData?.social_link_menu, FALLBACK_SOCIALS),
-    },
-  ];
-
-  const contactLinks = pick(footerData?.contact_us_menu, FALLBACK_CONTACTS);
+    { id: "pages", title: "Pages", links: footerData?.pages_menu },
+    { id: "legal-pages", title: "Legal Pages", links: footerData?.legal_pages_menu },
+    { id: "socials", title: "Socials", links: footerData?.social_link_menu },
+    { id: "contact", title: "Contact Us", links: footerData?.contact_us_menu },
+  ].filter((column) => column.links?.length);
 
   return (
     <footer className={styles.spFooter} data-hide-side-rails>
@@ -160,20 +130,9 @@ export default function Footer() {
                 </ul>
               </div>
             ))}
-
-            <div className={styles.spFooterColumn}>
-              <p className={styles.spFooterColumnTitle}>Contact Us</p>
-              <ul className={styles.spFooterLinkList}>
-                {contactLinks.map((link) => (
-                  <li key={link.id}>
-                    <FooterLink link={link} />
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
 
-          <FooterRecognition />
+          <FooterRecognition image={footerData?.right_bottom_image} />
 
           <div className={styles.spFooterBottom}>
             <p className={styles.spFooterCopyright}>
@@ -190,14 +149,16 @@ export default function Footer() {
   );
 }
 
-function FooterRecognition() {
+function FooterRecognition({ image }) {
+  if (!image) return null;
+
   return (
     <div className={styles.spFooterRecognition} aria-label="Awards and reviews">
-      <Image
-        src="/images/footer-recognition.png"
-        alt="SimplePlan Media awards and reviews"
-        width={1472}
-        height={704}
+      <img
+        src={getImageUrl(image)}
+        alt={image.alternativeText || "SimplePlan Media awards and reviews"}
+        width={image.width}
+        height={image.height}
       />
     </div>
   );

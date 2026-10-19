@@ -168,7 +168,7 @@ export default function PaidCourse() {
       <CourseOffer id="paid-course-offer" data={sections.brand_positioning_course} />
       <ProductCategoryFaq id="paid-course-faq" data={sections.faq_section} />
       <StickyCourseBar
-        data={sections.brand_positioning_course}
+        data={sections.sticky_course_bar}
         heroId="paid-course-hero"
         hideWhileVisibleIds={["paid-course-video", "paid-course-offer"]}
       />

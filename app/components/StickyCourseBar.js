@@ -19,13 +19,12 @@ const ARROW = (
 // duplicates the CTA or covers the footer. A thin progress line on top of
 // the bar tracks how far down the page the reader is.
 //
-// Rating and the "Videos · Templates · Worksheets" line aren't CMS fields.
+// Title, subtitle, price and CTA come from the CMS (sticky_course_bar). The
+// rating isn't a CMS field yet, so it only shows if `data.rating` is added.
 export default function StickyCourseBar({
   data,
   heroId,
   hideWhileVisibleIds = [],
-  rating = "4.9",
-  subtitle = "Videos · Templates · Worksheets",
 }) {
   const barRef = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -105,9 +104,11 @@ export default function StickyCourseBar({
       <span className="sticky-course-bar__progress" aria-hidden="true" />
       <div className="sticky-course-bar__in">
         <div className="sticky-course-bar__info">
-          <span className="sticky-course-bar__rating">★{rating}</span>
+          {data.rating && (
+            <span className="sticky-course-bar__rating">★{data.rating}</span>
+          )}
           <p className="sticky-course-bar__title">{data.title}</p>
-          <p className="sticky-course-bar__sub">{subtitle}</p>
+          <p className="sticky-course-bar__sub">{data.sub_title}</p>
         </div>
 
         <div className="sticky-course-bar__buy">
@@ -119,7 +120,7 @@ export default function StickyCourseBar({
             className="sticky-course-bar__cta"
             tabIndex={visible ? 0 : -1}
           >
-            <span>Enroll Now</span>
+            <span>{data.cta_text}</span>
             {ARROW}
           </a>
         </div>

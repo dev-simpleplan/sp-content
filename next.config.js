@@ -29,6 +29,14 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Staging only: keep *.vercel.app out of Google's index. The live
+        // custom domain doesn't match, so it stays indexable. Don't block
+        // this host in robots.txt, or Google can't crawl to see the noindex.
+        source: "/:path*",
+        has: [{ type: "host", value: ".*\\.vercel\\.app" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
 };

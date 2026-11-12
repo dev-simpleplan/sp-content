@@ -27,15 +27,9 @@ const nextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          // Site is behind a password gate; keep it out of every index.
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
-      },
-      {
-        // Staging only: keep *.vercel.app out of Google's index. The live
-        // custom domain doesn't match, so it stays indexable. Don't block
-        // this host in robots.txt, or Google can't crawl to see the noindex.
-        source: "/:path*",
-        has: [{ type: "host", value: ".*\\.vercel\\.app" }],
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
     ];
   },

@@ -17,7 +17,7 @@ const ARROW_RIGHT = (
 
 export default function HomeBestsellingProducts({ id, data }) {
   // Learning Path data has tabs (data.path); Most Popular data is a flat
-  // list (data.popular_videos) and renders without tabs.
+  // list (data.most_popular_videos) and renders without tabs.
   const hasTabs = Array.isArray(data?.path);
   const categories = useMemo(() => data?.path || [], [data]);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -26,10 +26,10 @@ export default function HomeBestsellingProducts({ id, data }) {
   const tabsRef = useRef(null);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const products = hasTabs
-    ? categories[activeCategory]?.path_video || []
-    : data?.popular_videos || data?.resources || [];
+    ? categories[activeCategory]?.most_popular_videos || []
+    : data?.most_popular_videos || data?.resources || [];
   // resources are products: their CTA is a full button, videos get a text link
-  const isResources = !hasTabs && !data?.popular_videos && Boolean(data?.resources);
+  const isResources = !hasTabs && !data?.most_popular_videos && Boolean(data?.resources);
   const subtitle = data?.description?.[0]?.children?.[0]?.text;
   const maxSlideIndex = Math.max(products.length - visibleCount, 0);
   const currentSlideIndex = Math.min(slideIndex, maxSlideIndex);
@@ -120,9 +120,10 @@ export default function HomeBestsellingProducts({ id, data }) {
               }}
             >
               {products.map((item) => {
-                // videos: image + video_title; resources: product_image + title (+ price)
+                // videos: image + title + slug; resources: product_image + title (+ price)
                 const image = item.image || item.product_image;
-                const title = item.video_title || item.title;
+                const title = item.title;
+                const videoHref = item.slug ? `/content/${item.slug}` : "#";
 
                 return (
                   <article className="home-bestselling-card" key={item.id}>
@@ -159,8 +160,8 @@ export default function HomeBestsellingProducts({ id, data }) {
                           </span>
                         </a>
                       ) : (
-                        <a href={item.cta_link || "#"}>
-                          <span>{item.cta_text || "Watch Now"}</span>
+                        <a href={videoHref}>
+                          <span>{item.watch_now_text || "Watch Now"}</span>
                         </a>
                       )}
                     </div>

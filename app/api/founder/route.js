@@ -11,7 +11,7 @@ export async function GET() {
         { status: response.status }
       );
     }
-
+ 
     return Response.json(await response.json());
   } catch (error) {
     console.error("founder route error:", error);

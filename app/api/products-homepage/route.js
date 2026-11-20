@@ -1,5 +1,5 @@
 const CONTENT_HOME_API =
-  "http://72.61.235.119:1337/api/content-homepage?populate[content_home_banner][populate]=*&populate[video_section][populate]=*&populate[stats][populate]=*&populate[learning_path][populate][path][populate][most_popular_videos][populate]=*&populate[grow_faster][populate]=*&populate[most_popular][populate][most_popular_videos][populate]=*&populate[testimonials_section][populate]=*&populate[paid_course][populate]=*&populate[people_trust_us][populate]=*&populate[our_digital_products][populate]=*&populate[learn_about][populate]=*&populate[pre_footer][populate]=*";
+  "http://72.61.235.119:1337/api/content-homepage?populate[content_home_banner][populate]=*&populate[video_section][populate]=*&populate[stats][populate]=*&populate[learning_path][populate][path][populate][most_popular_videos][populate]=*&populate[grow_faster][populate]=*&populate[most_popular][populate][most_popular_videos][populate]=*&populate[testimonials_section][populate]=*&populate[paid_course][populate]=*&populate[people_trust_us][populate]=*&populate[our_digital_products][populate]=*&populate[learn_about][populate]=*&populate[pre_footer][populate]=*"; 
 
 export async function GET() {
   try {

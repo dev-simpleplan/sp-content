@@ -472,3 +472,8 @@
     aspect-ratio: 1/1;
   }
 }
+.contact-error {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #e5484d;
+}

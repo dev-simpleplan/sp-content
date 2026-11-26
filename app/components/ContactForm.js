@@ -16,13 +16,10 @@ const COUNTRY_CODES = [
 const INQUIRE_OPTIONS = ["Branding", "Marketing", "Website Development", "SP for Good", "Something else"];
 const NEED_OPTIONS = ["New brand identity", "Rebrand", "A marketing campaign", "A new website", "Not sure yet"];
 
-// No confirmed Strapi endpoint exists for any of these three variants
-// (the one this codebase already proxies via /api/forms is the
-// sp-for-good partnership form — name/email/phone/what_need only, and
-// doesn't accept a file upload at all for the "Join Team" case) — so,
-// same as the newsletter/thank-you forms elsewhere on this site,
-// submitting just gives feedback and moves on to /thank-you. Wire this up
-// to the real endpoint(s) once confirmed.
+// Saved to Strapi's form-details collection through /api/contact; this
+// site's contact form is the "general" form_type (no organization, no CV).
+const FORM_TYPE = "general";
+
 export default function ContactForm({ tab = "new-project" }) {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -35,13 +32,34 @@ export default function ContactForm({ tab = "new-project" }) {
   const [need, setNeed] = useState("");
   const [resume, setResume] = useState(null);
   const [brief, setBrief] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | submitting
+  const [status, setStatus] = useState("idle"); // idle | submitting | error
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (status === "submitting") return;
     setStatus("submitting");
-    router.push("/thank-you");
+    setErrorMsg("");
+
+    const fd = new FormData();
+    fd.set("form_type", FORM_TYPE);
+    fd.set("name", name);
+    fd.set("email", email);
+    fd.set("phone_number", `${country.dial} ${phone}`.trim());
+    if (organization) fd.set("organization_name", organization);
+    fd.set("inquire_about", inquireAbout);
+    fd.set("what_need", need);
+
+    try {
+      const res = await fetch("/api/contact", { method: "POST", body: fd });
+      const result = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(result.error || "Something went wrong");
+      router.push("/thank-you");
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      setErrorMsg(error.message || "Something went wrong. Please try again.");
+      setStatus("error");
+    }
   };
 
   return (
@@ -253,6 +271,12 @@ export default function ContactForm({ tab = "new-project" }) {
           </svg>
         </span>
       </button>
+
+      {status === "error" && (
+        <p className="contact-error" role="alert">
+          {errorMsg}
+        </p>
+      )}
     </form>
   );
 }

@@ -3,10 +3,16 @@ import Link from "next/link";
 
 // primaryScrollTo: id of a section on the same page. When set, the primary
 // CTA smooth-scrolls to that section instead of following its CMS link.
-export default function HomeBanner({ id, data, primaryScrollTo }) {
+// onPrimaryClick: when set, the primary CTA calls it instead (e.g. open a modal).
+export default function HomeBanner({ id, data, primaryScrollTo, onPrimaryClick }) {
   if (!data) return null;
 
   const handlePrimaryClick = (event) => {
+    if (onPrimaryClick) {
+      event.preventDefault();
+      onPrimaryClick();
+      return;
+    }
     const target = primaryScrollTo && document.getElementById(primaryScrollTo);
     if (!target) return; // no such section: fall back to the normal link
 

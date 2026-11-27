@@ -43,7 +43,7 @@ function renderBlocks(blocks = []) {
   return out;
 }
 
-export default function ApproachBranding({id, data, richDescription = false}) {
+export default function ApproachBranding({id, data, richDescription = false, onCtaClick}) {
   if (!data) return null;
 
   return (
@@ -64,7 +64,18 @@ export default function ApproachBranding({id, data, richDescription = false}) {
                 </p>
               )}
               {data?.cta_link && (
-                <a href={data?.cta_link} className="custom-btn">
+                <a
+                  href={data?.cta_link}
+                  className="custom-btn"
+                  onClick={
+                    onCtaClick
+                      ? (event) => {
+                          event.preventDefault();
+                          onCtaClick();
+                        }
+                      : undefined
+                  }
+                >
                   <span>{data?.cta_text}</span>
                     <span className="arrow-wrap">
                         <svg className="arrow arrow-1" width="12" height="12" viewBox="0 0 12 12" fill="none"

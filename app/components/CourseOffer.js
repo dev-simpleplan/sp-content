@@ -22,7 +22,7 @@ const ARROW = (
 );
 
 // The badge, "What You Get:" and "Total Value" labels aren't CMS fields.
-export default function CourseOffer({ id, data }) {
+export default function CourseOffer({ id, data, onEnroll }) {
   if (!data) return null;
 
   const perks = data.we_provided || [];
@@ -37,7 +37,18 @@ export default function CourseOffer({ id, data }) {
             {data.price && <p className="course-offer-price">{data.price}</p>}
 
             {data.cta_text && (
-              <a href={data.cta_link || "#"} className="custom-btn course-offer-cta">
+              <a
+                href={data.cta_link || "#"}
+                className="custom-btn course-offer-cta"
+                onClick={
+                  onEnroll
+                    ? (event) => {
+                        event.preventDefault();
+                        onEnroll();
+                      }
+                    : undefined
+                }
+              >
                 <span>{data.cta_text}</span>
                 {ARROW}
               </a>

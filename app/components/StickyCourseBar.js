@@ -25,6 +25,7 @@ export default function StickyCourseBar({
   data,
   heroId,
   hideWhileVisibleIds = [],
+  onEnroll,
 }) {
   const barRef = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -119,6 +120,14 @@ export default function StickyCourseBar({
             href={data.cta_link || "#"}
             className="sticky-course-bar__cta"
             tabIndex={visible ? 0 : -1}
+            onClick={
+              onEnroll
+                ? (event) => {
+                    event.preventDefault();
+                    onEnroll();
+                  }
+                : undefined
+            }
           >
             <span>{data.cta_text}</span>
             {ARROW}

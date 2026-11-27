@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import HomeBanner from "../components/HomeBanner";
 import VideoAnimated from "../components/VideoAnimated";
@@ -13,6 +13,7 @@ import UseCase from "../components/UseCase";
 import TestimonialSection from "../components/TestimonialSection";
 import CourseOffer from "../components/CourseOffer";
 import StickyCourseBar from "../components/StickyCourseBar";
+import CourseEnrollModal from "../components/CourseEnrollModal";
 import RightSideLine from "../components/RightSideLine";
 import Wayfinding from "../components/Wayfinding";
 import { useSetPreFooter } from "../context/PreFooterContext";
@@ -22,6 +23,9 @@ export default function PaidCourse() {
   const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [enrollOpen, setEnrollOpen] = useState(false);
+  const openEnroll = useCallback(() => setEnrollOpen(true), []);
+  const closeEnroll = useCallback(() => setEnrollOpen(false), []);
 
   useSetPreFooter(sections.pre_footer);
 
@@ -146,7 +150,11 @@ export default function PaidCourse() {
     <>
       <Wayfinding sections={wayfindingSections} />
       <RightSideLine id="rightLine" />
-      <HomeBanner id="paid-course-hero" data={sections.paid_course_banner} />
+      <HomeBanner
+        id="paid-course-hero"
+        data={sections.paid_course_banner}
+        onPrimaryClick={openEnroll}
+      />
       <VideoAnimated id="paid-course-video" data={sections.video_section} />
       <DualTickerSection id="paid-course-founders-brands" data={sections.built_by_founders} />
       <ApproachBranding id="paid-course-problem" data={sections.nobody_understand} />
@@ -154,6 +162,7 @@ export default function PaidCourse() {
         id="paid-course-solution"
         data={sections.brand_has_been_missing}
         richDescription
+        onCtaClick={openEnroll}
       />
       <OurApproach id="paid-course-learn-build" data={sections.learn_and_build} />
       <ProductCategoryFaq id="paid-course-framework" data={sections.brand_builder} arrowIcon />
@@ -165,12 +174,23 @@ export default function PaidCourse() {
         productVariant
         testimonialTicker
       />
-      <CourseOffer id="paid-course-offer" data={sections.brand_positioning_course} />
+      <CourseOffer
+        id="paid-course-offer"
+        data={sections.brand_positioning_course}
+        onEnroll={openEnroll}
+      />
       <ProductCategoryFaq id="paid-course-faq" data={sections.faq_section} />
       <StickyCourseBar
         data={sections.sticky_course_bar}
         heroId="paid-course-hero"
         hideWhileVisibleIds={["paid-course-video", "paid-course-offer"]}
+        onEnroll={openEnroll}
+      />
+      <CourseEnrollModal
+        open={enrollOpen}
+        onClose={closeEnroll}
+        price={sections.brand_positioning_course?.price}
+        paymentUrl={sections.brand_positioning_course?.cta_link}
       />
     </>
   );
